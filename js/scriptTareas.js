@@ -61,57 +61,72 @@ btnGuardar.addEventListener('click',()=>{
 
 function agregarTarea(){
     tareas.innerHTML = '';  //  Se inicializa en vacio
-    titulosTareas.forEach((titulo,i) => {
+    titulosTareas.forEach((tituloT,i) => {
 
-        const col = document.createElement('div'); // Creando el div que contendra toda la carta
-            col.classList.add("col-md-3","col-sm-6","my-2");   // Agregando clases al div creado
+      let color = "";
+      switch (prioridadTareas[i]) {
+      case '1':
+          color = "#008000"
+          break;
+      case '2':
+          color = "#FFFF00"
+          break;
+      case '3':
+          color = "#FF0000"
+          break;
+      }
+      // Carta
+      const card = document.createElement('div');
+      card.classList.add("card", "col-10", "offset-1", "mb-3");
+      card.style.borderLeft = `0.5rem solid ${color}`;
+      // Body
+      const cardB = document.createElement('div');
+      cardB.classList.add("card-body");
+      // Div titulo y prioridad
+      const divT = document.createElement('div');
+      divT.classList.add("d-flex","justify-content-between","align-items-start");
+      // Titulo
+      const titulo = document.createElement('h5');
+      titulo.classList.add("card-title");
+      titulo.textContent = tituloT;
+      // Fecha parrafo
+      const fecha = document.createElement('p');
+      fecha.classList.add("card-text");
+      // Fecha small
+      const small = document.createElement('small');
+      small.classList.add("text-body-secondary");
+      small.textContent = fechaTareas[i];
+      // Descripcción
+      const parrafo = document.createElement('p');
+      parrafo.classList.add("card-text");
+      parrafo.textContent = descripcionTareas[i];
+      // Div botones
+      const divB = document.createElement('div');
+      divB.classList.add("text-end");
+      // Boton editar
+      const editar = document.createElement('button');
+      editar.classList.add("btn","btn-sm","btn-primary","me-2");
+      editar.textContent = "Editar";
+      // Boton eliminar
+      const eliminar = document.createElement('button');
+      eliminar.classList.add("btn","btn-sm","btn-danger");
+      eliminar.textContent = "Eliminar";
 
-            const card = document.createElement('div'); // Creando el div que contendra toda la carta
-            card.classList.add("card");   // Agregando clases al div creado
-            card.style.width = "18rem";
-            col.appendChild(card);
+      
+      
+      tareas.appendChild(card);
+      card.appendChild(cardB);
+      cardB.appendChild(divT);
+      divT.appendChild(titulo);
+      divT.appendChild(fecha);
+      fecha.appendChild(small);
+      cardB.appendChild(parrafo);
+      cardB.appendChild(divB);
+      divB.appendChild(editar);
+      divB.appendChild(eliminar);
 
-            // Primer card body
-            const cardB = document.createElement('div');
-            cardB.classList.add("card-body","text-start");
-            card.appendChild(cardB);
 
-            const tituloB = document.createElement('h3');
-            tituloB.classList.add('card-title');
-            tituloB.innerHTML = (`<strong>${titulo}<strong>`);
-            cardB.appendChild(tituloB);
-
-            const descripcionB = document.createElement('h6');
-            descripcionB.classList.add('card-subtitle','mb-2');
-            descripcionB.innerHTML = (`<strong>${descripcionTareas[i]}<strong>`);
-            cardB.appendChild(descripcionB);
-
-            const fechaB = document.createElement('h6');
-            fechaB.classList.add('card-subtitle','mb-2');
-            fechaB.innerHTML = (`<strong>${fechaTareas[i]}<strong>`);
-            cardB.appendChild(fechaB);
-
-            let prio = "";
-
-           switch (prioridadTareas[i]) {
-            case '1':
-                prio = "Baja"
-                break;
-            case '2':
-                prio = "Media"
-                break;
-            case '3':
-                prio = "Alta"
-                break;
-           }
-            const prioridadB = document.createElement('h6');
-            prioridadB.classList.add('card-subtitle','mb-2');
-            prioridadB.innerHTML = (`<strong>${prio}<strong>`);
-            cardB.appendChild(prioridadB);
-
-            tareas.appendChild(col);
 
     });
 
 }
-
