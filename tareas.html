@@ -43,10 +43,28 @@
     <!-- Contenido principal -->
     <div class="main-content">
       <h1 class="mb-4 text-center">Mi Lista de Tareas</h1>
-       <!-- Botón para abrir el modal -->
-      <div class="d-flex justify-content-end mt-4 me-4">
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalFormulario">+ Nueva Tarea</button>
+      <div class=" mx-4 d-flex justify-content-between align-items-start">
+        <!-- Filtrar por prioridad -->
+        <div class="mb-3">
+          <label for="filtroPrioridad" class="form-label">Filtrar por Prioridad</label>
+          <select class="form-select" id="filtroPrioridad">
+            <option value="todas">Todas</option>
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+          </select>
+        </div>
+        <!-- Botón para abrir el modal -->
+        <div class="d-flex justify-content-end mt-4 me-4">
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalFormulario">+ Nueva Tarea</button>
+        </div>
+        <!-- Botón para abrir el modal -->
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
+      
       <!-- Aqui iran las tareas -->
       <div class="container">
         <div class="row" id="tareas">

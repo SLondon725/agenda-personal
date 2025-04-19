@@ -3,6 +3,7 @@ let titulosTareas = JSON.parse(localStorage.getItem('arrTitulosT')) || [];
 let descripcionTareas = JSON.parse(localStorage.getItem('arrDescripcionT')) || [];
 let fechaTareas = JSON.parse(localStorage.getItem('arrFechaT')) || [];
 let prioridadTareas = JSON.parse(localStorage.getItem('arrPrioridadT')) || [];
+let idTareas = JSON.parse(localStorage.getItem('arrIdT')) || [];
 
 // localStorage.clear();
 // Constantes
@@ -37,15 +38,18 @@ btnGuardar.addEventListener('click',()=>{
     });
   }else{
     // Si todos los campos estan llenos se procede a guardar la tarea en los arrays
+    let id = idTareas.length > 0 ? Math.max(...idTareas) + 1 : 1;
     titulosTareas.push(titulo);
     descripcionTareas.push(descripcion);
     fechaTareas.push(fecha);
     prioridadTareas.push(prioridad);
-
+    idTareas.push(id);
+    
     localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
     localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
     localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
     localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
+    localStorage.setItem('arrIdT', JSON.stringify(idTareas));
 
     agregarTarea();
 
@@ -63,21 +67,26 @@ function agregarTarea(){
     tareas.innerHTML = '';  //  Se inicializa en vacio
     titulosTareas.forEach((tituloT,i) => {
 
-      let color = "";
+      let color = "#6c757d";
+      let prioridadT = "Sin prioridad";
       switch (prioridadTareas[i]) {
       case '1':
-          color = "#008000"
+          color = "#008000";
+          prioridadT = " Baja";
+
           break;
       case '2':
-          color = "#FFFF00"
+          color = "#ffc107";
+          prioridadT = " Media";
           break;
       case '3':
-          color = "#FF0000"
+          color = "#dc3545";
+          prioridadT = " Alta";
           break;
       }
       // Carta
       const card = document.createElement('div');
-      card.classList.add("card", "col-10", "offset-1", "mb-3");
+      card.classList.add("card", "col-12", "mb-3");
       card.style.borderLeft = `0.5rem solid ${color}`;
       // Body
       const cardB = document.createElement('div');
@@ -100,20 +109,23 @@ function agregarTarea(){
       const parrafo = document.createElement('p');
       parrafo.classList.add("card-text");
       parrafo.textContent = descripcionTareas[i];
+      // Prioridad
+      const prioridad = document.createElement('p');
+      prioridad.classList.add("mb-2");
+      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
       // Div botones
       const divB = document.createElement('div');
       divB.classList.add("text-end");
       // Boton editar
       const editar = document.createElement('button');
       editar.classList.add("btn","btn-sm","btn-primary","me-2");
+
       editar.textContent = "Editar";
       // Boton eliminar
       const eliminar = document.createElement('button');
       eliminar.classList.add("btn","btn-sm","btn-danger");
       eliminar.textContent = "Eliminar";
 
-      
-      
       tareas.appendChild(card);
       card.appendChild(cardB);
       cardB.appendChild(divT);
@@ -121,12 +133,10 @@ function agregarTarea(){
       divT.appendChild(fecha);
       fecha.appendChild(small);
       cardB.appendChild(parrafo);
+      cardB.appendChild(prioridad);
       cardB.appendChild(divB);
       divB.appendChild(editar);
       divB.appendChild(eliminar);
 
-
-
     });
-
 }

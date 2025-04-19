@@ -20,6 +20,8 @@ let fechaTareas = fechaT ? JSON.parse(fechaT) : [];
 let prioridadT = localStorage.getItem('arrPrioridadT');
 let prioridadTareas = prioridadT ? JSON.parse(prioridadT) : [];
 
+let idT = localStorage.getItem('arrIdT');
+let idTareas = idT ? JSON.parse(idT) : [];
 
 // evento para reiniciar el modal 
 modal.addEventListener('hidden.bs.modal',()=> { document.getElementById('formModal').reset();  });
@@ -44,16 +46,19 @@ btnGuardar.addEventListener('click',()=>{
       showConfirmButton: false
     });
   }else{
+    let id = idTareas.length > 0 ? Math.max(...idTareas) + 1 : 1;
     // Si todos los campos estan llenos se procede a guardar la tarea en los arrays
     titulosTareas.push(titulo);
     descripcionTareas.push(descripcion);
     fechaTareas.push(fecha);
     prioridadTareas.push(prioridad);
+    idTareas.push(id);
 
     localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
     localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
     localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
     localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
+    localStorage.setItem('arrIdT', JSON.stringify(idTareas));
 
 
     // Alerta para hacer saber que se genero un nuevo registro
@@ -67,3 +72,4 @@ btnGuardar.addEventListener('click',()=>{
 })
 
 console.log(titulosTareas);
+console.log(idTareas);
