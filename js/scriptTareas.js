@@ -64,79 +64,117 @@ btnGuardar.addEventListener('click',()=>{
 })
 
 function agregarTarea(){
-    tareas.innerHTML = '';  //  Se inicializa en vacio
-    titulosTareas.forEach((tituloT,i) => {
+  tareas.innerHTML = '';  //  Se inicializa en vacio
+  titulosTareas.forEach((tituloT,i) => {
 
-      let color = "#6c757d";
-      let prioridadT = "Sin prioridad";
-      switch (prioridadTareas[i]) {
-      case '1':
-          color = "#008000";
-          prioridadT = " Baja";
+    let color = "#6c757d";
+    let prioridadT = "Sin prioridad";
+    switch (prioridadTareas[i]) {
+    case '1':
+        color = "#008000";
+        prioridadT = " Baja";
 
-          break;
-      case '2':
-          color = "#ffc107";
-          prioridadT = " Media";
-          break;
-      case '3':
-          color = "#dc3545";
-          prioridadT = " Alta";
-          break;
-      }
-      // Carta
-      const card = document.createElement('div');
-      card.classList.add("card", "col-12", "mb-3");
-      card.style.borderLeft = `0.5rem solid ${color}`;
-      // Body
-      const cardB = document.createElement('div');
-      cardB.classList.add("card-body");
-      // Div titulo y prioridad
-      const divT = document.createElement('div');
-      divT.classList.add("d-flex","justify-content-between","align-items-start");
-      // Titulo
-      const titulo = document.createElement('h5');
-      titulo.classList.add("card-title");
-      titulo.textContent = tituloT;
-      // Fecha parrafo
-      const fecha = document.createElement('p');
-      fecha.classList.add("card-text");
-      // Fecha small
-      const small = document.createElement('small');
-      small.classList.add("text-body-secondary");
-      small.textContent = fechaTareas[i];
-      // Descripcción
-      const parrafo = document.createElement('p');
-      parrafo.classList.add("card-text");
-      parrafo.textContent = descripcionTareas[i];
-      // Prioridad
-      const prioridad = document.createElement('p');
-      prioridad.classList.add("mb-2");
-      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
-      // Div botones
-      const divB = document.createElement('div');
-      divB.classList.add("text-end");
-      // Boton editar
-      const editar = document.createElement('button');
-      editar.classList.add("btn","btn-sm","btn-primary","me-2");
+        break;
+    case '2':
+        color = "#ffc107";
+        prioridadT = " Media";
+        break;
+    case '3':
+        color = "#dc3545";
+        prioridadT = " Alta";
+        break;
+    }
+    // Carta
+    const card = document.createElement('div');
+    card.classList.add("card", "col-12", "mb-3");
+    card.style.borderLeft = `0.5rem solid ${color}`;
+    // Body
+    const cardB = document.createElement('div');
+    cardB.classList.add("card-body");
+    // Div titulo y prioridad
+    const divT = document.createElement('div');
+    divT.classList.add("d-flex","justify-content-between","align-items-start");
+    // Titulo
+    const titulo = document.createElement('h5');
+    titulo.classList.add("card-title");
+    titulo.textContent = tituloT;
+    // Fecha parrafo
+    const fecha = document.createElement('p');
+    fecha.classList.add("card-text");
+    // Fecha small
+    const small = document.createElement('small');
+    small.classList.add("text-body-secondary");
+    small.textContent = fechaTareas[i];
+    // Descripcción
+    const parrafo = document.createElement('p');
+    parrafo.classList.add("card-text");
+    parrafo.textContent = descripcionTareas[i];
+    // Prioridad
+    const prioridad = document.createElement('p');
+    prioridad.classList.add("mb-2");
+    prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
+    // Div botones
+    const divB = document.createElement('div');
+    divB.classList.add("text-end");
+    // Boton editar
+    const editar = document.createElement('button');
+    editar.classList.add("btn","btn-sm","btn-primary","me-2");
+    editar.textContent = "Editar";
+    // Boton eliminar
+    const btnEliminar = document.createElement('button');
+    btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
+    btnEliminar.textContent = "Eliminar";
+    btnEliminar.id = idTareas[i];
 
-      editar.textContent = "Editar";
-      // Boton eliminar
-      const eliminar = document.createElement('button');
-      eliminar.classList.add("btn","btn-sm","btn-danger");
-      eliminar.textContent = "Eliminar";
+    tareas.appendChild(card);
+    card.appendChild(cardB);
+    cardB.appendChild(divT);
+    divT.appendChild(titulo);
+    divT.appendChild(fecha);
+    fecha.appendChild(small);
+    cardB.appendChild(parrafo);
+    cardB.appendChild(prioridad);
+    cardB.appendChild(divB);
+    divB.appendChild(editar);
+    divB.appendChild(btnEliminar);
 
-      tareas.appendChild(card);
-      card.appendChild(cardB);
-      cardB.appendChild(divT);
-      divT.appendChild(titulo);
-      divT.appendChild(fecha);
-      fecha.appendChild(small);
-      cardB.appendChild(parrafo);
-      cardB.appendChild(prioridad);
-      cardB.appendChild(divB);
-      divB.appendChild(editar);
-      divB.appendChild(eliminar);
+  });
+  
 
-    });
+  const eliminar = document.querySelectorAll('.eliminar');
+  console.log(eliminar);
+
+  eliminar.forEach(eleccion => {
+      
+      eleccion.addEventListener('click', ()=>{
+          
+          let idT = (eleccion.id);
+          idTareas.forEach((id,i) => {
+            if (idT == id) {
+              // Eliminando la tarea seleccionada
+              titulosTareas.splice(i,1);
+              descripcionTareas.splice(i,1);
+              fechaTareas.splice(i,1);
+              prioridadTareas.splice(i,1);
+              idTareas.splice(i,1);
+              
+              localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
+              localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
+              localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
+              localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
+              localStorage.setItem('arrIdT', JSON.stringify(idTareas));
+
+              Swal.fire({
+                title: '¡Registro eliminado!',
+                text: 'Tu tarea se elimino de forma correcta',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
+
+              agregarTarea();
+              
+            }
+          });
+      });
+  });
 }
