@@ -9,13 +9,14 @@ let idTareas = JSON.parse(localStorage.getItem('arrIdT')) || [];
 // Constantes
 const tareas = document.getElementById('tareas');
 const modal = document.getElementById('modalFormulario'); // Modal del nuevo registro
-const btnGuardar = document.getElementById('guardar');
+const btnGuardar = document.getElementById('guardar');  // Guardar o actualizar registro
+const filtroPrioridad = document.getElementById('filtroPrioridad'); // Filtro de prioridad
 
 // Variable para saber si se esta editando
 let indiceEdicion = null;
-
+let nuevaPrioridad = "-1";
 // Funciones a ejecutar al ingresar a la pagina
-agregarTarea()
+agregarTarea(); // actualizar datos de las tareas
 
 // evento para reiniciar el modal 
 modal.addEventListener('hidden.bs.modal',()=> { document.getElementById('formModal').reset();  });
@@ -85,6 +86,7 @@ btnGuardar.addEventListener('click',()=>{
 })
 
 function agregarTarea(){
+  console.log(nuevaPrioridad);  // Verificando el valor de nuevaPrioridad
   tareas.innerHTML = '';  //  Se inicializa en vacio
   titulosTareas.forEach((tituloT,i) => {
 
@@ -105,62 +107,120 @@ function agregarTarea(){
         prioridadT = " Alta";
         break;
     }
-    // Carta
-    const card = document.createElement('div');
-    card.classList.add("card", "col-12", "mb-3");
-    card.style.borderLeft = `0.5rem solid ${color}`;
-    // Body
-    const cardB = document.createElement('div');
-    cardB.classList.add("card-body");
-    // Div titulo y prioridad
-    const divT = document.createElement('div');
-    divT.classList.add("d-flex","justify-content-between","align-items-start");
-    // Titulo
-    const titulo = document.createElement('h5');
-    titulo.classList.add("card-title");
-    titulo.textContent = tituloT;
-    // Fecha parrafo
-    const fecha = document.createElement('p');
-    fecha.classList.add("card-text");
-    // Fecha small
-    const small = document.createElement('small');
-    small.classList.add("text-body-secondary");
-    small.textContent = fechaTareas[i];
-    // Descripcción
-    const parrafo = document.createElement('p');
-    parrafo.classList.add("card-text");
-    parrafo.textContent = descripcionTareas[i];
-    // Prioridad
-    const prioridad = document.createElement('p');
-    prioridad.classList.add("mb-2");
-    prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
-    // Div botones
-    const divB = document.createElement('div');
-    divB.classList.add("text-end");
-    // Boton editar
-    const btnEditar = document.createElement('button');
-    btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
-    btnEditar.textContent = "Editar";
-    btnEditar.id = `editar${idTareas[i]}`;
+    // Aqui se inicia el filtrado
+    if (nuevaPrioridad === '-1') {
+      // Carta
+      const card = document.createElement('div');
+      card.classList.add("card", "col-12", "mb-3");
+      card.style.borderLeft = `0.5rem solid ${color}`;
+      // Body
+      const cardB = document.createElement('div');
+      cardB.classList.add("card-body");
+      // Div titulo y prioridad
+      const divT = document.createElement('div');
+      divT.classList.add("d-flex","justify-content-between","align-items-start");
+      // Titulo
+      const titulo = document.createElement('h5');
+      titulo.classList.add("card-title");
+      titulo.textContent = tituloT;
+      // Fecha parrafo
+      const fecha = document.createElement('p');
+      fecha.classList.add("card-text");
+      // Fecha small
+      const small = document.createElement('small');
+      small.classList.add("text-body-secondary");
+      small.textContent = fechaTareas[i];
+      // Descripcción
+      const parrafo = document.createElement('p');
+      parrafo.classList.add("card-text");
+      parrafo.textContent = descripcionTareas[i];
+      // Prioridad
+      const prioridad = document.createElement('p');
+      prioridad.classList.add("mb-2");
+      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
+      // Div botones
+      const divB = document.createElement('div');
+      divB.classList.add("text-end");
+      // Boton editar
+      const btnEditar = document.createElement('button');
+      btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
+      btnEditar.textContent = "Editar";
+      btnEditar.id = `editar${idTareas[i]}`;
 
-    // Boton eliminar
-    const btnEliminar = document.createElement('button');
-    btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
-    btnEliminar.textContent = "Eliminar";
-    btnEliminar.id = `eliminar${idTareas[i]}`;
+      // Boton eliminar
+      const btnEliminar = document.createElement('button');
+      btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
+      btnEliminar.textContent = "Eliminar";
+      btnEliminar.id = `eliminar${idTareas[i]}`;
 
-    tareas.appendChild(card);
-    card.appendChild(cardB);
-    cardB.appendChild(divT);
-    divT.appendChild(titulo);
-    divT.appendChild(fecha);
-    fecha.appendChild(small);
-    cardB.appendChild(parrafo);
-    cardB.appendChild(prioridad);
-    cardB.appendChild(divB);
-    divB.appendChild(btnEditar);
-    divB.appendChild(btnEliminar);
+      tareas.appendChild(card);
+      card.appendChild(cardB);
+      cardB.appendChild(divT);
+      divT.appendChild(titulo);
+      divT.appendChild(fecha);
+      fecha.appendChild(small);
+      cardB.appendChild(parrafo);
+      cardB.appendChild(prioridad);
+      cardB.appendChild(divB);
+      divB.appendChild(btnEditar);
+      divB.appendChild(btnEliminar);
+    }else if (nuevaPrioridad === prioridadTareas[i]) {
+      // Carta
+      const card = document.createElement('div');
+      card.classList.add("card", "col-12", "mb-3");
+      card.style.borderLeft = `0.5rem solid ${color}`;
+      // Body
+      const cardB = document.createElement('div');
+      cardB.classList.add("card-body");
+      // Div titulo y prioridad
+      const divT = document.createElement('div');
+      divT.classList.add("d-flex","justify-content-between","align-items-start");
+      // Titulo
+      const titulo = document.createElement('h5');
+      titulo.classList.add("card-title");
+      titulo.textContent = tituloT;
+      // Fecha parrafo
+      const fecha = document.createElement('p');
+      fecha.classList.add("card-text");
+      // Fecha small
+      const small = document.createElement('small');
+      small.classList.add("text-body-secondary");
+      small.textContent = fechaTareas[i];
+      // Descripcción
+      const parrafo = document.createElement('p');
+      parrafo.classList.add("card-text");
+      parrafo.textContent = descripcionTareas[i];
+      // Prioridad
+      const prioridad = document.createElement('p');
+      prioridad.classList.add("mb-2");
+      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
+      // Div botones
+      const divB = document.createElement('div');
+      divB.classList.add("text-end");
+      // Boton editar
+      const btnEditar = document.createElement('button');
+      btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
+      btnEditar.textContent = "Editar";
+      btnEditar.id = `editar${idTareas[i]}`;
 
+      // Boton eliminar
+      const btnEliminar = document.createElement('button');
+      btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
+      btnEliminar.textContent = "Eliminar";
+      btnEliminar.id = `eliminar${idTareas[i]}`;
+
+      tareas.appendChild(card);
+      card.appendChild(cardB);
+      cardB.appendChild(divT);
+      divT.appendChild(titulo);
+      divT.appendChild(fecha);
+      fecha.appendChild(small);
+      cardB.appendChild(parrafo);
+      cardB.appendChild(prioridad);
+      cardB.appendChild(divB);
+      divB.appendChild(btnEditar);
+      divB.appendChild(btnEliminar);
+    }
   });
   // Eliminar tarea 
   const eliminar = document.querySelectorAll('.eliminar');
@@ -238,4 +298,13 @@ function agregarTarea(){
     });
   });
 }
+
+// Evento para cambiar de color
+filtroPrioridad.addEventListener('change',actualizarPrioridad)
+
+function actualizarPrioridad(){
+  nuevaPrioridad = filtroPrioridad.value ;
+  agregarTarea()
+}
+
 
