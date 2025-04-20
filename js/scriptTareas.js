@@ -9,7 +9,10 @@ let idTareas = JSON.parse(localStorage.getItem('arrIdT')) || [];
 // Constantes
 const tareas = document.getElementById('tareas');
 const modal = document.getElementById('modalFormulario'); // Modal del nuevo registro
-const btnGuardar = document.getElementById('guardar')
+const btnGuardar = document.getElementById('guardar');
+
+// Variable para saber si se esta editando
+let indiceEdicion = null;
 
 // Funciones a ejecutar al ingresar a la pagina
 agregarTarea()
@@ -37,14 +40,40 @@ btnGuardar.addEventListener('click',()=>{
       showConfirmButton: false
     });
   }else{
-    // Si todos los campos estan llenos se procede a guardar la tarea en los arrays
-    let id = idTareas.length > 0 ? Math.max(...idTareas) + 1 : 1;
-    titulosTareas.push(titulo);
-    descripcionTareas.push(descripcion);
-    fechaTareas.push(fecha);
-    prioridadTareas.push(prioridad);
-    idTareas.push(id);
-    
+    // Si todos los campos estan llenos se procede a guardar la tarea en los arrays y verificar si se esta editando o creando un nuevo registro
+
+    if (indiceEdicion !== null) {
+      // Editar tarea existente
+      titulosTareas[indiceEdicion] = titulo;
+      descripcionTareas[indiceEdicion] = descripcion;
+      fechaTareas[indiceEdicion] = fecha;
+      prioridadTareas[indiceEdicion] = prioridad;
+      indiceEdicion = null;
+      // Alerta para tarea actualizada
+      Swal.fire({
+        title: '¡Tarea editada!',
+        text: 'Los datos se actualizaron correctamente',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+  
+      indiceEdicion = null;
+    }else{
+      let id = idTareas.length > 0 ? Math.max(...idTareas) + 1 : 1;
+      titulosTareas.push(titulo);
+      descripcionTareas.push(descripcion);
+      fechaTareas.push(fecha);
+      prioridadTareas.push(prioridad);
+      idTareas.push(id);
+
+      // Alerta para hacer saber que se genero un nuevo registro
+      Swal.fire({
+        title: '¡Nuevo registro!',
+        text: 'Tu tarea se registro de forma correcta',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+    }
     localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
     localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
     localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
@@ -52,14 +81,6 @@ btnGuardar.addEventListener('click',()=>{
     localStorage.setItem('arrIdT', JSON.stringify(idTareas));
 
     agregarTarea();
-
-    // Alerta para hacer saber que se genero un nuevo registro
-    Swal.fire({
-      title: '¡Nuevo registro!',
-      text: 'Tu tarea se registro de forma correcta',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
   }
 })
 
@@ -117,14 +138,16 @@ function agregarTarea(){
     const divB = document.createElement('div');
     divB.classList.add("text-end");
     // Boton editar
-    const editar = document.createElement('button');
-    editar.classList.add("btn","btn-sm","btn-primary","me-2");
-    editar.textContent = "Editar";
+    const btnEditar = document.createElement('button');
+    btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
+    btnEditar.textContent = "Editar";
+    btnEditar.id = `editar${idTareas[i]}`;
+
     // Boton eliminar
     const btnEliminar = document.createElement('button');
     btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
     btnEliminar.textContent = "Eliminar";
-    btnEliminar.id = idTareas[i];
+    btnEliminar.id = `eliminar${idTareas[i]}`;
 
     tareas.appendChild(card);
     card.appendChild(cardB);
@@ -135,46 +158,84 @@ function agregarTarea(){
     cardB.appendChild(parrafo);
     cardB.appendChild(prioridad);
     cardB.appendChild(divB);
-    divB.appendChild(editar);
+    divB.appendChild(btnEditar);
     divB.appendChild(btnEliminar);
 
   });
-  
-
+  // Eliminar tarea 
   const eliminar = document.querySelectorAll('.eliminar');
-  console.log(eliminar);
 
   eliminar.forEach(eleccion => {
-      
-      eleccion.addEventListener('click', ()=>{
-          
-          let idT = (eleccion.id);
-          idTareas.forEach((id,i) => {
-            if (idT == id) {
-              // Eliminando la tarea seleccionada
-              titulosTareas.splice(i,1);
-              descripcionTareas.splice(i,1);
-              fechaTareas.splice(i,1);
-              prioridadTareas.splice(i,1);
-              idTareas.splice(i,1);
-              
-              localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
-              localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
-              localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
-              localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
-              localStorage.setItem('arrIdT', JSON.stringify(idTareas));
+    eleccion.addEventListener('click', ()=>{
+        
+        let idT = (eleccion.id);
+        idTareas.forEach((id,i) => {
+          id = `eliminar${idTareas[i]}`
+          if (idT === id) {
+            // Confirmacion para eliminar elemento
+            Swal.fire({
+              title: '¿Estás seguro?',
+              text: 'No podrás revertir esta acción',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Sí, eliminar',
+              cancelButtonText: 'Cancelar'
+            }).then((resultado) => {
+              if (resultado.isConfirmed) {
+                // Eliminando la tarea seleccionada
+                titulosTareas.splice(i,1);
+                descripcionTareas.splice(i,1);
+                fechaTareas.splice(i,1);
+                prioridadTareas.splice(i,1);
+                idTareas.splice(i,1);
+                
+                localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
+                localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
+                localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
+                localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
+                localStorage.setItem('arrIdT', JSON.stringify(idTareas));
 
-              Swal.fire({
-                title: '¡Registro eliminado!',
-                text: 'Tu tarea se elimino de forma correcta',
-                icon: 'success',
-                confirmButtonText: 'OK'
-              });
+                Swal.fire({
+                  title: '¡Eliminado!',
+                  text: 'Tu tarea ha sido eliminada.',
+                  icon: 'success',
+                  position: 'top',
+                  toast: true,         // Hace que sea un mensajito como "toast"
+                  timer: 3000,         // Se cierra en 3 segundos
+                  showConfirmButton: false
+                });
+                agregarTarea();
+              }
+            })
+          }
+        });
+    });
+  });
+  // Editar tarea
+  const editar = document.querySelectorAll('.editar');
+  editar.forEach(eleccion => {
+    eleccion.addEventListener('click', ()=>{
+        
+        let idT = (eleccion.id);
+        idTareas.forEach((id,i) => {
 
-              agregarTarea();
-              
-            }
-          });
-      });
+          if (idT === `editar${id}`) {
+            // Confirmacion para eliminar elemento
+            console.log(id);
+             // Llenamos los inputs
+            document.getElementById('titulo').value = titulosTareas[i];
+            document.getElementById('descripcion').value = descripcionTareas[i];
+            document.getElementById('fecha').value = fechaTareas[i];
+            document.getElementById('prioridad').value = prioridadTareas[i]; 
+
+            var myModal = new bootstrap.Modal(document.getElementById('modalFormulario'));
+            indiceEdicion = i;
+            myModal.show();
+          }
+        });
+    });
   });
 }
+
