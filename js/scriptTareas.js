@@ -164,6 +164,7 @@ function agregarTarea(){
       cardB.appendChild(divB);
       divB.appendChild(btnEditar);
       divB.appendChild(btnEliminar);
+      
     }else if (nuevaPrioridad === prioridadTareas[i]) {
       // Carta
       const card = document.createElement('div');
