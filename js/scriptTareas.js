@@ -4,7 +4,6 @@ let descripcionTareas = JSON.parse(localStorage.getItem('arrDescripcionT')) || [
 let fechaTareas = JSON.parse(localStorage.getItem('arrFechaT')) || [];
 let prioridadTareas = JSON.parse(localStorage.getItem('arrPrioridadT')) || [];
 let idTareas = JSON.parse(localStorage.getItem('arrIdT')) || [];
-let estadoTareas = JSON.parse(localStorage.getItem('arrEstadoT')) || [];  // Aqui se guardara el estado de las tareas (tarea completada / incompleta)
 
 // localStorage.clear();
 // Constantes
@@ -67,9 +66,6 @@ btnGuardar.addEventListener('click',()=>{
       fechaTareas.push(fecha);
       prioridadTareas.push(prioridad);
       idTareas.push(id);
-      estadoTareas.push(0);
-
-      localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
 
       // Alerta para hacer saber que se genero un nuevo registro
       Swal.fire({
@@ -117,81 +113,6 @@ function agregarTarea(){
       const card = document.createElement('div');
       card.classList.add("card", "col-12", "mb-3");
       card.style.borderLeft = `0.5rem solid ${color}`;
-      card.id = `tareaCompleta${idTareas[i]}`;
-      // Body
-      const cardB = document.createElement('div');
-      cardB.classList.add("card-body");
-      // Div titulo y prioridad
-      const divT = document.createElement('div');
-      divT.classList.add("d-flex","justify-content-between","align-items-start");
-      // Titulo
-      const titulo = document.createElement('h5');
-      titulo.classList.add("card-title");
-      titulo.textContent = tituloT;
-      // Fecha parrafo
-      const fecha = document.createElement('p');
-      fecha.classList.add("card-text");
-      // Fecha small
-      const small = document.createElement('small');
-      small.classList.add("text-body-secondary");
-      small.textContent = fechaTareas[i];
-      // Descripcción
-      const parrafo = document.createElement('p');
-      parrafo.classList.add("card-text");
-      parrafo.textContent = descripcionTareas[i];
-      // Prioridad
-      const prioridad = document.createElement('p');
-      prioridad.classList.add("mb-2");
-      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`;
-      // Div botones
-      const divB = document.createElement('div');
-      divB.classList.add("text-end");
-      // Check estado de la tarea
-      const divCheck = document.createElement('div');
-      divCheck.classList.add("form-check");
-      // input 
-      const inputCheck = document.createElement('input');
-      inputCheck.classList.add("form-check-input","marcarTarea");
-      inputCheck.type = 'checkbox';
-      inputCheck.id = `check${idTareas[i]}`;
-      inputCheck.checked = estadoTareas[i] === 1; 
-      // Label
-      const label = document.createElement('label');
-      label.classList.add('form-check-label');
-      label.setAttribute('for', `check${idTareas[i]}`);
-      label.textContent = 'Tarea completada';
-      // Boton editar
-      const btnEditar = document.createElement('button');
-      btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
-      btnEditar.textContent = "Editar";
-      btnEditar.id = `editar${idTareas[i]}`;
-      // Boton eliminar
-      const btnEliminar = document.createElement('button');
-      btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
-      btnEliminar.textContent = "Eliminar";
-      btnEliminar.id = `eliminar${idTareas[i]}`;
-
-      tareas.appendChild(card);
-      card.appendChild(cardB);
-      cardB.appendChild(divT);
-      divT.appendChild(titulo);
-      divT.appendChild(fecha);
-      fecha.appendChild(small);
-      cardB.appendChild(parrafo);
-      cardB.appendChild(prioridad);
-      cardB.appendChild(divCheck);
-      divCheck.appendChild(inputCheck);
-      divCheck.appendChild(label);
-      cardB.appendChild(divB);
-      divB.appendChild(btnEditar);
-      divB.appendChild(btnEliminar);
-
-    }else if (nuevaPrioridad === prioridadTareas[i]) {
-      // Carta
-      const card = document.createElement('div');
-      card.classList.add("card", "col-12", "mb-3");
-      card.style.borderLeft = `0.5rem solid ${color}`;
-      card.id = `tareaCompleta${idTareas[i]}`;
       // Body
       const cardB = document.createElement('div');
       cardB.classList.add("card-body");
@@ -220,25 +141,12 @@ function agregarTarea(){
       // Div botones
       const divB = document.createElement('div');
       divB.classList.add("text-end");
-      // Check estado de la tarea
-      const divCheck = document.createElement('div');
-      divCheck.classList.add("form-check");
-      // input 
-      const inputCheck = document.createElement('input');
-      inputCheck.classList.add("form-check-input",);
-      inputCheck.type = 'checkbox';
-      inputCheck.id = `check${idTareas[i]}`;
-      inputCheck.checked = estadoTareas[i] === 1; 
-      // Label
-      const label = document.createElement('label');
-      label.classList.add('form-check-label');
-      label.setAttribute('for', `check${idTareas[i]}`);
-      label.textContent = 'Tarea completada';
       // Boton editar
       const btnEditar = document.createElement('button');
       btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
       btnEditar.textContent = "Editar";
       btnEditar.id = `editar${idTareas[i]}`;
+
       // Boton eliminar
       const btnEliminar = document.createElement('button');
       btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
@@ -253,13 +161,65 @@ function agregarTarea(){
       fecha.appendChild(small);
       cardB.appendChild(parrafo);
       cardB.appendChild(prioridad);
-      cardB.appendChild(divCheck);
-      divCheck.appendChild(inputCheck);
-      divCheck.appendChild(label);
       cardB.appendChild(divB);
       divB.appendChild(btnEditar);
       divB.appendChild(btnEliminar);
-      
+    }else if (nuevaPrioridad === prioridadTareas[i]) {
+      // Carta
+      const card = document.createElement('div');
+      card.classList.add("card", "col-12", "mb-3");
+      card.style.borderLeft = `0.5rem solid ${color}`;
+      // Body
+      const cardB = document.createElement('div');
+      cardB.classList.add("card-body");
+      // Div titulo y prioridad
+      const divT = document.createElement('div');
+      divT.classList.add("d-flex","justify-content-between","align-items-start");
+      // Titulo
+      const titulo = document.createElement('h5');
+      titulo.classList.add("card-title");
+      titulo.textContent = tituloT;
+      // Fecha parrafo
+      const fecha = document.createElement('p');
+      fecha.classList.add("card-text");
+      // Fecha small
+      const small = document.createElement('small');
+      small.classList.add("text-body-secondary");
+      small.textContent = fechaTareas[i];
+      // Descripcción
+      const parrafo = document.createElement('p');
+      parrafo.classList.add("card-text");
+      parrafo.textContent = descripcionTareas[i];
+      // Prioridad
+      const prioridad = document.createElement('p');
+      prioridad.classList.add("mb-2");
+      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
+      // Div botones
+      const divB = document.createElement('div');
+      divB.classList.add("text-end");
+      // Boton editar
+      const btnEditar = document.createElement('button');
+      btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
+      btnEditar.textContent = "Editar";
+      btnEditar.id = `editar${idTareas[i]}`;
+
+      // Boton eliminar
+      const btnEliminar = document.createElement('button');
+      btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
+      btnEliminar.textContent = "Eliminar";
+      btnEliminar.id = `eliminar${idTareas[i]}`;
+
+      tareas.appendChild(card);
+      card.appendChild(cardB);
+      cardB.appendChild(divT);
+      divT.appendChild(titulo);
+      divT.appendChild(fecha);
+      fecha.appendChild(small);
+      cardB.appendChild(parrafo);
+      cardB.appendChild(prioridad);
+      cardB.appendChild(divB);
+      divB.appendChild(btnEditar);
+      divB.appendChild(btnEliminar);
     }
   });
   // Eliminar tarea 
@@ -290,14 +250,12 @@ function agregarTarea(){
                 fechaTareas.splice(i,1);
                 prioridadTareas.splice(i,1);
                 idTareas.splice(i,1);
-                estadoTareas.splice(i,1);
                 
                 localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
                 localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
                 localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
                 localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
-                localStorage.setItem('arrIdT', JSON.stringify(idTareas));                
-                localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));                
+                localStorage.setItem('arrIdT', JSON.stringify(idTareas));
 
                 Swal.fire({
                   title: '¡Eliminado!',
@@ -339,43 +297,6 @@ function agregarTarea(){
         });
     });
   });
-  // Marcar tarea
-  const checks = document.querySelectorAll('.form-check-input');
-
-  checks.forEach((check,i) => {
-    check.addEventListener('change', (e) => {
-      estadoTareas[i] = e.target.checked ? 1 : 0;
-      localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
-      if (estadoTareas[i] === 1) {   
-        Swal.fire({
-          title: 'Tarea Completada!',
-          text: 'Se realizo el cambio con exito.',
-          icon: 'success',
-          position: 'top',
-          toast: true,         // Hace que sea un mensajito como "toast"
-          timer: 2000,         // Se cierra en 3 segundos
-          showConfirmButton: false
-        });
-      }else{
-        Swal.fire({
-          title: 'Tarea Incompleta!',
-          text: 'Se realizo el cambio con exito.',
-          icon: 'warning',
-          position: 'top',
-          toast: true,         // Hace que sea un mensajito como "toast"
-          timer: 2000,         // Se cierra en 3 segundos
-          showConfirmButton: false
-        });
-        
-      }
-     
-      agregarTarea();
-
-    });
-    
- 
-  });
-
 }
 
 // Evento para cambiar de color
@@ -383,7 +304,7 @@ filtroPrioridad.addEventListener('change',actualizarPrioridad)
 
 function actualizarPrioridad(){
   nuevaPrioridad = filtroPrioridad.value ;
-  agregarTarea();
+  agregarTarea()
 }
 
 
