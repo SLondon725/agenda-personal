@@ -1,9 +1,10 @@
-document.getElementById('todayDate').textContent = new Date().toLocaleDateString(); // Sacar fecha local
+// document.getElementById('todayDate').textContent = new Date().toLocaleDateString(); // Sacar fecha local
 // Constantes
 const hoy = new Date().toISOString().split('T')[0]; // Sacar la fecha local en formato ingles
 const modal = document.getElementById('modalFormulario'); // Modal del nuevo registro
 const btnGuardar = document.getElementById('guardar');  // Guardar nuevo registro
 const tareasImportantes = document.getElementById('tareasImportantes'); //  Mostrando las tareas importantes
+let estadoTareas = JSON.parse(localStorage.getItem('arrEstadoT')) || [];  // Aqui se guardara el estado de las tareas (tarea completada / incompleta)
 
 // LocalStorage
 // Arrays con el localStorage
@@ -79,6 +80,9 @@ btnGuardar.addEventListener('click',()=>{
       fechaTareas.push(fecha);
       prioridadTareas.push(prioridad);
       idTareas.push(id);
+      estadoTareas.push(0);
+
+      localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
 
       // Alerta para hacer saber que se genero un nuevo registro
       Swal.fire({
@@ -125,6 +129,7 @@ function agregarTarea(){
       const card = document.createElement('div');
       card.classList.add("card", "col-12", "mb-3");
       card.style.borderLeft = `0.5rem solid ${color}`;
+      card.id = `tareaCompleta${idTareas[i]}`;
       // Body
       const cardB = document.createElement('div');
       cardB.classList.add("card-body");
@@ -149,10 +154,24 @@ function agregarTarea(){
       // Prioridad
       const prioridad = document.createElement('p');
       prioridad.classList.add("mb-2");
-      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
+      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`;
       // Div botones
       const divB = document.createElement('div');
       divB.classList.add("text-end");
+      // Check estado de la tarea
+      const divCheck = document.createElement('div');
+      divCheck.classList.add("form-check");
+      // input 
+      const inputCheck = document.createElement('input');
+      inputCheck.classList.add("form-check-input","marcarTarea");
+      inputCheck.type = 'checkbox';
+      inputCheck.id = `check${idTareas[i]}`;
+      inputCheck.checked = estadoTareas[i] === 1; 
+      // Label
+      const label = document.createElement('label');
+      label.classList.add('form-check-label');
+      label.setAttribute('for', `check${idTareas[i]}`);
+      label.textContent = 'Tarea completada';
       // Boton editar
       const btnEditar = document.createElement('button');
       btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
@@ -173,6 +192,9 @@ function agregarTarea(){
       fecha.appendChild(small);
       cardB.appendChild(parrafo);
       cardB.appendChild(prioridad);
+      cardB.appendChild(divCheck);
+      divCheck.appendChild(inputCheck);
+      divCheck.appendChild(label);
       cardB.appendChild(divB);
       divB.appendChild(btnEditar);
       divB.appendChild(btnEliminar);
@@ -207,12 +229,15 @@ function agregarTarea(){
                 fechaTareas.splice(i,1);
                 prioridadTareas.splice(i,1);
                 idTareas.splice(i,1);
+                estadoTareas.splice(i,1);
                 
                 localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
                 localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
                 localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
                 localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
                 localStorage.setItem('arrIdT', JSON.stringify(idTareas));
+                localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));                
+
 
                 Swal.fire({
                   title: '¡Eliminado!',
@@ -254,4 +279,41 @@ function agregarTarea(){
         });
     });
   });
+  // Marcar tarea
+  const checks = document.querySelectorAll('.form-check-input');
+
+  checks.forEach((check,i) => {
+    check.addEventListener('change', (e) => {
+      estadoTareas[i] = e.target.checked ? 1 : 0;
+      localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
+      if (estadoTareas[i] === 1) {   
+        Swal.fire({
+          title: 'Tarea Completada!',
+          text: 'Se realizo el cambio con exito.',
+          icon: 'success',
+          position: 'top',
+          toast: true,         // Hace que sea un mensajito como "toast"
+          timer: 2000,         // Se cierra en 3 segundos
+          showConfirmButton: false
+        });
+      }else{
+        Swal.fire({
+          title: 'Tarea Incompleta!',
+          text: 'Se realizo el cambio con exito.',
+          icon: 'warning',
+          position: 'top',
+          toast: true,         // Hace que sea un mensajito como "toast"
+          timer: 2000,         // Se cierra en 3 segundos
+          showConfirmButton: false
+        });
+        
+      }
+     
+      agregarTarea();
+
+    });
+    
+ 
+  });
+
 }

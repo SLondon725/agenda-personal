@@ -46,9 +46,12 @@
         <h1 class="fw-bold">¡Hola, Usuario!</h1>
         <p class="text-muted">Organiza tu día de forma inteligente.</p>
       </div>
-
+      <!-- Botón para abrir el modal -->
+      <div class="d-flex justify-content-end m-4">
+        <button type="button" class="btn btn-outline-success btn-lg shadow" data-bs-toggle="modal" data-bs-target="#modalFormulario">+ Nueva Tarea</button>
+      </div>
       <div class="row g-4">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="card shadow-sm">
             <div class="card-header bg-secondary text-white">
               <h5 class="mb-0">Resumen del Día</h5>
@@ -60,7 +63,7 @@
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="card shadow-sm">
             <div class="card-header bg-warning">
               <h5 class="mb-0">Tareas Importantes</h5>
@@ -72,10 +75,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <!-- Botón para abrir el modal -->
-      <div class="d-flex justify-content-end mt-4">
-        <button type="button" class="btn btn-success btn-lg shadow" data-bs-toggle="modal" data-bs-target="#modalFormulario">+ Nueva Tarea</button>
       </div>
     </div>
 
