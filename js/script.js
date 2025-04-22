@@ -447,6 +447,15 @@ function checkTareaCompleta(){
         if (idT === `check${id}` || idT === `check${idTareas[i]}2`) {
           estadoTareas[i] = 1;
           localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
+          Swal.fire({
+            title: 'Tarea Completada!',
+            text: 'Se realizo el cambio con exito.',
+            icon: 'success',
+            position: 'top',
+            toast: true,         // Hace que sea un mensajito como "toast"
+            timer: 2000,         // Se cierra en 3 segundos
+            showConfirmButton: false
+          });
         }
       });
       agregarTarea();

@@ -356,35 +356,39 @@ function editarTarea(){
 }
 // Funcion Checkear tarea completada
 function checkTareaCompleta(){
-  // Marcar tarea
   const checks = document.querySelectorAll('.form-check-input');
-
-  checks.forEach((check,i) => {
-    check.addEventListener('change', (e) => {
-      estadoTareas[i] = e.target.checked ? 1 : 0;
-      localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
-      if (estadoTareas[i] === 1) {   
-        Swal.fire({
-          title: 'Tarea Completada!',
-          text: 'Se realizo el cambio con exito.',
-          icon: 'success',
-          position: 'top',
-          toast: true,         // Hace que sea un mensajito como "toast"
-          timer: 2000,         // Se cierra en 3 segundos
-          showConfirmButton: false
-        });
-      }else{
-        Swal.fire({
-          title: 'Tarea Incompleta!',
-          text: 'Se realizo el cambio con exito.',
-          icon: 'warning',
-          position: 'top',
-          toast: true,         // Hace que sea un mensajito como "toast"
-          timer: 2000,         // Se cierra en 3 segundos
-          showConfirmButton: false
-        });
+  checks.forEach(eleccion => {
+    eleccion.addEventListener('change', (e)=>{
         
-      }
+      let idT = (eleccion.id);
+      idTareas.forEach((id,i) => {
+
+        if (idT === `check${id}`) {
+          estadoTareas[i] = e.target.checked ? 1 : 0;
+          localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
+          if (estadoTareas[i] === 1) {   
+            Swal.fire({
+              title: 'Tarea Completada!',
+              text: 'Se realizo el cambio con exito.',
+              icon: 'success',
+              position: 'top',
+              toast: true,         // Hace que sea un mensajito como "toast"
+              timer: 2000,         // Se cierra en 3 segundos
+              showConfirmButton: false
+            });
+          }else{
+            Swal.fire({
+              title: 'Tarea Incompleta!',
+              text: 'Se realizo el cambio con exito.',
+              icon: 'warning',
+              position: 'top',
+              toast: true,         // Hace que sea un mensajito como "toast"
+              timer: 2000,         // Se cierra en 3 segundos
+              showConfirmButton: false
+            });
+          }
+        }
+      });
       agregarTarea();
     });
   });
