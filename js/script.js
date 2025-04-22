@@ -138,7 +138,7 @@ function agregarTarea(){
         break;
     }
     // Aqui se inicia el filtrado
-    if (prioridadTareas[i] === "3") {
+    if (prioridadTareas[i] === "3" && estadoTareas[i] === 0) {
       // Carta
       const card = document.createElement('div');
       card.classList.add("card", "col-12", "mb-3");
@@ -171,12 +171,24 @@ function agregarTarea(){
       // Div botones
       const divB = document.createElement('div');
       divB.classList.add("text-end");
+      // Check estado de la tarea
+      const divCheck = document.createElement('div');
+      divCheck.classList.add("form-check");
+      // input 
+      const inputCheck = document.createElement('input');
+      inputCheck.classList.add("form-check-input");
+      inputCheck.type = 'checkbox';
+      inputCheck.id = `check${idTareas[i]}`;
+      // Label
+      const label = document.createElement('label');
+      label.classList.add('form-check-label');
+      label.setAttribute('for', `check${idTareas[i]}`);
+      label.textContent = 'Tarea completada';
       // Boton editar
       const btnEditar = document.createElement('button');
       btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editarImportante");
       btnEditar.textContent = "Editar";
       btnEditar.id = `editarImportante${idTareas[i]}`;
-
       // Boton eliminar
       const btnEliminar = document.createElement('button');
       btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
@@ -191,6 +203,9 @@ function agregarTarea(){
       fecha.appendChild(small);
       cardB.appendChild(parrafo);
       cardB.appendChild(prioridad);
+      cardB.appendChild(divCheck);
+      divCheck.appendChild(inputCheck);
+      divCheck.appendChild(label);
       cardB.appendChild(divB);
       divB.appendChild(btnEditar);
       divB.appendChild(btnEliminar);
@@ -201,7 +216,8 @@ function agregarTarea(){
   eliminarTarea();
   // Editar tarea 
   editarTarea();
-  
+  // Marcar tarea como completa
+  checkTareaCompleta();
   
 }
 // Funcion eliminar tarea
@@ -260,7 +276,7 @@ function eliminarTarea(){
   });
   
 }
-// Funcion editar tarea
+// Funcion editar tarea (importantes)
 function editarTarea(){
   const editarI = document.querySelectorAll('.editarImportante');
 
@@ -287,6 +303,7 @@ function editarTarea(){
   });
 
 }
+// Funcion editar tareas del dia (resumen)
 function editarResumen(){
   const editarR = document.querySelectorAll('.editarResumen');
 
@@ -314,7 +331,7 @@ function editarResumen(){
   });
 
 }
-
+// Funcion mostrar las tareas del dia
 function mostrarResumen(){
   resumenDia.innerHTML = '';  //  Se inicializa en vacio
   titulosTareas.forEach((tituloT,i) => {
@@ -337,7 +354,7 @@ function mostrarResumen(){
         break;
     }
     // Aqui se inicia el filtrado
-    if (fechaActual == fechaTareas[i]) {
+    if (fechaActual == fechaTareas[i] && estadoTareas[i] === 0) {
       // Carta
       const card = document.createElement('div');
       card.classList.add("card", "col-12", "mb-3");
@@ -370,12 +387,24 @@ function mostrarResumen(){
       // Div botones
       const divB = document.createElement('div');
       divB.classList.add("text-end");
+      // Check estado de la tarea
+      const divCheck = document.createElement('div');
+      divCheck.classList.add("form-check");
+      // input 
+      const inputCheck = document.createElement('input');
+      inputCheck.classList.add("form-check-input");
+      inputCheck.type = 'checkbox';
+      inputCheck.id = `check${idTareas[i]}2`;
+      // Label
+      const label = document.createElement('label');
+      label.classList.add('form-check-label');
+      label.setAttribute('for', `check${idTareas[i]}2`);
+      label.textContent = 'Tarea completada';
       // Boton editar
       const btnEditar = document.createElement('button');
       btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editarResumen");
       btnEditar.textContent = "Editar";
       btnEditar.id = `editarResumen${idTareas[i]}`;
-
       // Boton eliminar
       const btnEliminar = document.createElement('button');
       btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
@@ -390,6 +419,9 @@ function mostrarResumen(){
       fecha.appendChild(small);
       cardB.appendChild(parrafo);
       cardB.appendChild(prioridad);
+      cardB.appendChild(divCheck);
+      divCheck.appendChild(inputCheck);
+      divCheck.appendChild(label);
       cardB.appendChild(divB);
       divB.appendChild(btnEditar);
       divB.appendChild(btnEliminar);
@@ -400,6 +432,25 @@ function mostrarResumen(){
   eliminarTarea();
   // Editar resumen 
   editarResumen()
+  // Marcar tarea como completa
+  checkTareaCompleta();
+}
+// Funcion Checkear tarea completada
+function checkTareaCompleta(){
+  const checks = document.querySelectorAll('.form-check-input');
+  checks.forEach(eleccion => {
+    eleccion.addEventListener('change', ()=>{
+        
+      let idT = (eleccion.id);
+      idTareas.forEach((id,i) => {
 
-  
+        if (idT === `check${id}` || idT === `check${idTareas[i]}2`) {
+          estadoTareas[i] = 1;
+          localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
+        }
+      });
+      agregarTarea();
+      mostrarResumen();
+    });
+  });
 }
