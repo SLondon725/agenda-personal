@@ -30,3 +30,83 @@ body {
 .sidebar-link.active {
     background-color: #0d6efd;
 }
+
+/* Estilos para el calendario */
+
+/* Fondo del calendario */
+#calendar {
+border-radius: 10px;
+padding: 10px;
+}
+
+/* Días de la semana: Lunes, Martes, etc. */
+.fc-col-header-cell-cushion {
+color: #0d6efd !important; /* rosado */
+font-weight: bold;
+}
+
+/* Números de los días: 1, 2, 3, etc. */
+.fc-daygrid-day-number {
+color: gray !important;
+font-weight: bold;
+}
+
+/* Color de fondo de los días */
+/* .fc-daygrid-day {
+background-color: #1e1e1e;
+} */
+
+/* Eventos (tareas) */
+.fc-event {
+background-color: #008000; /* azul Bootstrap */
+color: #fff; /* texto blanco */
+border: none;
+border-radius: 5px;
+padding: 2px 5px;
+font-size: 0.9rem;
+}
+
+/* Día actual */
+.fc-day-today {
+background-color: rgba(128, 128, 128, 0.274) !important;
+}
+
+/* Hover sobre un día */
+.fc-daygrid-day:hover {
+background-color: rgba(128, 128, 128, 0.274);
+cursor: pointer;
+}
+
+/* Botón Today */
+.fc-button-primary {
+background-color: rgb(95, 94, 94);
+color: #000000;
+border: 1px solid gray;
+font-weight: bold;
+}
+
+.fc-button-primary:hover {
+background-color: gray;
+color: #121212;
+border-color: rgb(95, 94, 94);
+}
+
+/* Flechitas de navegación (mes anterior/siguiente) */
+.fc .fc-toolbar button {
+color: #ffffff;
+border: none;
+background: #0d6efd;
+}
+
+.fc .fc-toolbar button:hover {
+background-color: gray;
+color: #ffffff;
+border-radius: 5px;
+}
+
+.fc-event-title {
+white-space: normal !important; /* permite salto de línea */
+overflow-wrap: anywhere;
+}
+
+
