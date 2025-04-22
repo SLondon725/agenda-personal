@@ -48,17 +48,20 @@
       </div>
       <!-- Botón para abrir el modal -->
       <div class="d-flex justify-content-end m-4">
-        <button type="button" class="btn btn-outline-success btn-lg shadow" data-bs-toggle="modal" data-bs-target="#modalFormulario">+ Nueva Tarea</button>
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalFormulario">+ Nueva Tarea</button>
       </div>
       <div class="row g-4">
         <div class="col-md-12">
           <div class="card shadow-sm">
+            
             <div class="card-header bg-secondary text-white">
               <h5 class="mb-0">Resumen del Día</h5>
             </div>
             <div class="card-body">
-              <p><strong>Fecha:</strong> <span id="todayDate"></span></p>
-              <ul id="todayTasks" class="list-group list-group-flush"></ul>
+              <p><strong>Fecha:</strong> <span id="fechaActual"></span></p>
+            </div>
+            <div class="card-body" id="resumenDia">
+              <!-- Aqui se visualizaran las tareas importantes -->
             </div>
           </div>
         </div>

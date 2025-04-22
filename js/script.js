@@ -1,9 +1,15 @@
-document.getElementById('todayDate').textContent = new Date().toLocaleDateString(); // Sacar fecha local
 // Constantes
-const hoy = new Date().toISOString().split('T')[0]; // Sacar la fecha local en formato ingles
+const hoy = new Date();
+const fechaActual = hoy.getFullYear() + '-' +
+  String(hoy.getMonth() + 1).padStart(2, '0') + '-' +
+  String(hoy.getDate()).padStart(2, '0'); // Sacar la fecha del dia en el que se encuentra
 const modal = document.getElementById('modalFormulario'); // Modal del nuevo registro
 const btnGuardar = document.getElementById('guardar');  // Guardar nuevo registro
 const tareasImportantes = document.getElementById('tareasImportantes'); //  Mostrando las tareas importantes
+const resumenDia = document.getElementById('resumenDia'); //  Mostrando las tareas importantes
+
+document.getElementById('fechaActual').textContent = fechaActual; // Mostrando la fecha actual
+
 
 // LocalStorage
 // Arrays con el localStorage
@@ -24,11 +30,18 @@ let prioridadTareas = prioridadT ? JSON.parse(prioridadT) : [];
 let idT = localStorage.getItem('arrIdT');
 let idTareas = idT ? JSON.parse(idT) : [];
 
+let estadoT = localStorage.getItem('arrEstadoT');
+let estadoTareas = estadoT ? JSON.parse(estadoT) : [];
+
+// pruebas
+
+
 // Variable para saber si se esta editando
 let indiceEdicion = null;
 
 // Funciones a ejecutar al ingresar a la pagina
 agregarTarea();
+mostrarResumen();
 
 // evento para reiniciar el modal 
 modal.addEventListener('hidden.bs.modal',()=> { document.getElementById('formModal').reset();  });
@@ -70,7 +83,6 @@ btnGuardar.addEventListener('click',()=>{
         icon: 'success',
         confirmButtonText: 'OK'
       });
-  
       indiceEdicion = null;
     }else{
       let id = idTareas.length > 0 ? Math.max(...idTareas) + 1 : 1;
@@ -79,6 +91,10 @@ btnGuardar.addEventListener('click',()=>{
       fechaTareas.push(fecha);
       prioridadTareas.push(prioridad);
       idTareas.push(id);
+      estadoTareas.push(0);
+
+      localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
+
 
       // Alerta para hacer saber que se genero un nuevo registro
       Swal.fire({
@@ -94,7 +110,9 @@ btnGuardar.addEventListener('click',()=>{
     localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
     localStorage.setItem('arrIdT', JSON.stringify(idTareas));
 
+    mostrarResumen();
     agregarTarea();
+    
   }
 })
 
@@ -155,9 +173,9 @@ function agregarTarea(){
       divB.classList.add("text-end");
       // Boton editar
       const btnEditar = document.createElement('button');
-      btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
+      btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editarImportante");
       btnEditar.textContent = "Editar";
-      btnEditar.id = `editar${idTareas[i]}`;
+      btnEditar.id = `editarImportante${idTareas[i]}`;
 
       // Boton eliminar
       const btnEliminar = document.createElement('button');
@@ -180,15 +198,22 @@ function agregarTarea(){
 
   });
   // Eliminar tarea 
+  eliminarTarea();
+  // Editar tarea 
+  editarTarea();
+  
+  
+}
+// Funcion eliminar tarea
+function eliminarTarea(){
   const eliminar = document.querySelectorAll('.eliminar');
-
   eliminar.forEach(eleccion => {
     eleccion.addEventListener('click', ()=>{
         
         let idT = (eleccion.id);
         idTareas.forEach((id,i) => {
-          id = `eliminar${idTareas[i]}`
-          if (idT === id) {
+
+          if (idT === `eliminar${id}` || idT === `eliminar${id}2`) {
             // Confirmacion para eliminar elemento
             Swal.fire({
               title: '¿Estás seguro?',
@@ -207,12 +232,14 @@ function agregarTarea(){
                 fechaTareas.splice(i,1);
                 prioridadTareas.splice(i,1);
                 idTareas.splice(i,1);
+                estadoTareas.splice(i,1);
                 
                 localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
                 localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
                 localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
                 localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
                 localStorage.setItem('arrIdT', JSON.stringify(idTareas));
+                localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
 
                 Swal.fire({
                   title: '¡Eliminado!',
@@ -224,23 +251,27 @@ function agregarTarea(){
                   showConfirmButton: false
                 });
                 agregarTarea();
+                mostrarResumen();
               }
             })
           }
         });
     });
   });
-  // Editar tarea
-  const editar = document.querySelectorAll('.editar');
-  editar.forEach(eleccion => {
+  
+}
+// Funcion editar tarea
+function editarTarea(){
+  const editarI = document.querySelectorAll('.editarImportante');
+
+  editarI.forEach(eleccion => {
     eleccion.addEventListener('click', ()=>{
         
         let idT = (eleccion.id);
         idTareas.forEach((id,i) => {
-
-          if (idT === `editar${id}`) {
+          if (idT === `editarImportante${id}`) {
             // Confirmacion para eliminar elemento
-            console.log(id);
+            console.log("selecciono editar importante dia ",id);
              // Llenamos los inputs
             document.getElementById('titulo').value = titulosTareas[i];
             document.getElementById('descripcion').value = descripcionTareas[i];
@@ -254,4 +285,121 @@ function agregarTarea(){
         });
     });
   });
+
+}
+function editarResumen(){
+  const editarR = document.querySelectorAll('.editarResumen');
+
+  editarR.forEach(eleccion => {
+    eleccion.addEventListener('click', ()=>{
+        
+        let idT = (eleccion.id);
+        idTareas.forEach((id,i) => {
+
+          if (idT === `editarResumen${id}`) {
+            // Confirmacion para eliminar elemento
+            console.log("selecciono editar resumen dia ",id);
+             // Llenamos los inputs
+            document.getElementById('titulo').value = titulosTareas[i];
+            document.getElementById('descripcion').value = descripcionTareas[i];
+            document.getElementById('fecha').value = fechaTareas[i];
+            document.getElementById('prioridad').value = prioridadTareas[i]; 
+
+            var myModal = new bootstrap.Modal(document.getElementById('modalFormulario'));
+            indiceEdicion = i;
+            myModal.show();
+          }
+        });
+    });
+  });
+
+}
+
+function mostrarResumen(){
+  resumenDia.innerHTML = '';  //  Se inicializa en vacio
+  titulosTareas.forEach((tituloT,i) => {
+
+    let color = "#6c757d";
+    let prioridadT = "Sin prioridad";
+    switch (prioridadTareas[i]) {
+    case '1':
+        color = "#008000";
+        prioridadT = " Baja";
+
+        break;
+    case '2':
+        color = "#ffc107";
+        prioridadT = " Media";
+        break;
+    case '3':
+        color = "#dc3545";
+        prioridadT = " Alta";
+        break;
+    }
+    // Aqui se inicia el filtrado
+    if (fechaActual == fechaTareas[i]) {
+      // Carta
+      const card = document.createElement('div');
+      card.classList.add("card", "col-12", "mb-3");
+      card.style.borderLeft = `0.5rem solid ${color}`;
+      // Body
+      const cardB = document.createElement('div');
+      cardB.classList.add("card-body");
+      // Div titulo y prioridad
+      const divT = document.createElement('div');
+      divT.classList.add("d-flex","justify-content-between","align-items-start");
+      // Titulo
+      const titulo = document.createElement('h5');
+      titulo.classList.add("card-title");
+      titulo.textContent = tituloT;
+      // Fecha parrafo
+      const fecha = document.createElement('p');
+      fecha.classList.add("card-text");
+      // Fecha small
+      const small = document.createElement('small');
+      small.classList.add("text-body-secondary");
+      small.textContent = fechaTareas[i];
+      // Descripcción
+      const parrafo = document.createElement('p');
+      parrafo.classList.add("card-text");
+      parrafo.textContent = descripcionTareas[i];
+      // Prioridad
+      const prioridad = document.createElement('p');
+      prioridad.classList.add("mb-2");
+      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
+      // Div botones
+      const divB = document.createElement('div');
+      divB.classList.add("text-end");
+      // Boton editar
+      const btnEditar = document.createElement('button');
+      btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editarResumen");
+      btnEditar.textContent = "Editar";
+      btnEditar.id = `editarResumen${idTareas[i]}`;
+
+      // Boton eliminar
+      const btnEliminar = document.createElement('button');
+      btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
+      btnEliminar.textContent = "Eliminar";
+      btnEliminar.id = `eliminar${idTareas[i]}2`;
+
+      resumenDia.appendChild(card);
+      card.appendChild(cardB);
+      cardB.appendChild(divT);
+      divT.appendChild(titulo);
+      divT.appendChild(fecha);
+      fecha.appendChild(small);
+      cardB.appendChild(parrafo);
+      cardB.appendChild(prioridad);
+      cardB.appendChild(divB);
+      divB.appendChild(btnEditar);
+      divB.appendChild(btnEliminar);
+    }
+
+  });
+  // Eliminar tarea 
+  eliminarTarea();
+  // Editar resumen 
+  editarResumen()
+
+  
 }

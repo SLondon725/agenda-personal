@@ -4,6 +4,7 @@ let descripcionTareas = JSON.parse(localStorage.getItem('arrDescripcionT')) || [
 let fechaTareas = JSON.parse(localStorage.getItem('arrFechaT')) || [];
 let prioridadTareas = JSON.parse(localStorage.getItem('arrPrioridadT')) || [];
 let idTareas = JSON.parse(localStorage.getItem('arrIdT')) || [];
+let estadoTareas = JSON.parse(localStorage.getItem('arrEstadoT')) || [];
 
 // localStorage.clear();
 // Constantes
@@ -66,7 +67,8 @@ btnGuardar.addEventListener('click',()=>{
       fechaTareas.push(fecha);
       prioridadTareas.push(prioridad);
       idTareas.push(id);
-
+      estadoTareas.push(0);
+      
       // Alerta para hacer saber que se genero un nuevo registro
       Swal.fire({
         title: '¡Nuevo registro!',
@@ -80,6 +82,8 @@ btnGuardar.addEventListener('click',()=>{
     localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
     localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
     localStorage.setItem('arrIdT', JSON.stringify(idTareas));
+    localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
+
 
     agregarTarea();
   }
@@ -223,8 +227,13 @@ function agregarTarea(){
     }
   });
   // Eliminar tarea 
-  const eliminar = document.querySelectorAll('.eliminar');
+  eliminarTarea();
+  // Editar tarea 
+  editarTarea();
+}
 
+function eliminarTarea(){
+  const eliminar = document.querySelectorAll('.eliminar');
   eliminar.forEach(eleccion => {
     eleccion.addEventListener('click', ()=>{
         
@@ -250,12 +259,14 @@ function agregarTarea(){
                 fechaTareas.splice(i,1);
                 prioridadTareas.splice(i,1);
                 idTareas.splice(i,1);
+                estadoTareas.splice(i,1);
                 
                 localStorage.setItem('arrTitulosT', JSON.stringify(titulosTareas));
                 localStorage.setItem('arrDescripcionT', JSON.stringify(descripcionTareas));
                 localStorage.setItem('arrFechaT', JSON.stringify(fechaTareas));
                 localStorage.setItem('arrPrioridadT', JSON.stringify(prioridadTareas));
                 localStorage.setItem('arrIdT', JSON.stringify(idTareas));
+                localStorage.setItem('arrEstadoT', JSON.stringify(estadoTareas));
 
                 Swal.fire({
                   title: '¡Eliminado!',
@@ -273,7 +284,10 @@ function agregarTarea(){
         });
     });
   });
-  // Editar tarea
+  
+}
+// Funcion editar tarea
+function editarTarea(){
   const editar = document.querySelectorAll('.editar');
   editar.forEach(eleccion => {
     eleccion.addEventListener('click', ()=>{
@@ -297,7 +311,10 @@ function agregarTarea(){
         });
     });
   });
+
 }
+
+
 
 // Evento para cambiar de color
 filtroPrioridad.addEventListener('change',actualizarPrioridad)
