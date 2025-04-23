@@ -3,16 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Calendario de Tareas</title>
-  <!-- FullCalendar -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <title>Estadísticas de Tareas</title>
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Libreria de iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/style.css">
-
-  
 </head>
 <body>
     <!-- Navbar para móviles con botón -->
@@ -26,8 +22,8 @@
       <h4 class="text-center mb-4">Agenda</h4>
       <a href="index.html" class="sidebar-link">Inicio</a>
       <a href="tareas.html" class="sidebar-link">Mis Tareas</a>
-      <a href="calendario.html" class="sidebar-link active">Calendario</a>
-      <a href="estadisticas.html" class="sidebar-link">Estadísticas</a>
+      <a href="calendario.html" class="sidebar-link">Calendario</a>
+      <a href="#" class="sidebar-link active">Estadísticas</a>
       <a href="#" class="sidebar-link">Configuración</a>
     </div>
     <!-- Sidebar vertical móvil tipo Offcanvas -->
@@ -39,25 +35,51 @@
       <div class="offcanvas-body d-flex flex-column">
         <a href="index.html" class="sidebar-link">Inicio</a>
         <a href="tareas.html" class="sidebar-link">Mis Tareas</a>
-        <a href="calendario.html" class="sidebar-link active">Calendario</a>
-        <a href="estadisticas.html" class="sidebar-link">Estadísticas</a>
+        <a href="calendario.html" class="sidebar-link">Calendario</a>
+        <a href="estadisticas.html" class="sidebar-link active">Estadísticas</a>
         <a href="#" class="sidebar-link">Configuración</a>
       </div>
     </div>
     <!-- Contenido principal -->
     <div class="main-content">
         <h1 class="mb-4 text-center">Calendario de Tareas</h1>
-        <div id="calendar">
-
+        <div class="row">
+          <div class="col-3">
+            <div class="card bg-dark text-white p-3 mb-3">
+              <h5>Total de tareas: <span class="text-info" id="tareasT"> </span></h5>
+              <h5>Completadas: <span class="text-success" id="tareasC"> </span></h5>
+              <h5>Pendientes: <span class="text-warning" id="tareasI"> </span></h5>
+              <h5>Cumplimiento: <span class="text-primary" id="tareasP"> </span></h5>
+            </div>
+          </div>
+          <div class="col-6 mx-auto">
+            <div class="container my-4">
+              <h2>Tareas Completadas</h2>
+              <canvas id="graficoTareas" height="50"></canvas>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="container my-4">
+              <h2>Tareas por prioridad</h2>
+              <canvas id="graficoPrioridades" height="100"></canvas>
+            </div>
+          </div>
+          
         </div>
+        
+        
+        
+        
+        
+        
     </div>
 
     <!-- Modales -->
 
     <!-- Archivos JS -->
-    <script src="js/scriptCalendario.js"></script>
+    <script src="js/scrptEstadisticas.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Libreria para las alertas -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script> <!-- Libreria FullCalender  -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Libreria para las barras de porcentaje -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

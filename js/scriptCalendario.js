@@ -29,9 +29,9 @@ const eventos = titulosTareas.map((titulo, i) => ({
     title: titulo,
     date: fechaTareas[i],
     backgroundColor: coloresTareas[i],
-  }));
+}));
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     const calendarEl = document.getElementById('calendar');
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
