@@ -8,7 +8,8 @@ let estadoTareas = JSON.parse(localStorage.getItem('arrEstadoT')) || [];
 
 // localStorage.clear();
 // Constantes
-const tareas = document.getElementById('tareas');
+const tareasP = document.getElementById('tareasP'); //  Div para guardar las tareas pendientes
+const tareasC = document.getElementById('tareasC'); //  Div para guardar las tareas completadas
 const modal = document.getElementById('modalFormulario'); // Modal del nuevo registro
 const btnGuardar = document.getElementById('guardar');  // Guardar o actualizar registro
 const filtroPrioridad = document.getElementById('filtroPrioridad'); // Filtro de prioridad
@@ -91,7 +92,9 @@ btnGuardar.addEventListener('click',()=>{
 
 function agregarTarea(){
   console.log(nuevaPrioridad);  // Verificando el valor de nuevaPrioridad
-  tareas.innerHTML = '';  //  Se inicializa en vacio
+  tareasP.innerHTML = '';  //  Se inicializa en vacio
+  tareasC.innerHTML = '';  //  Se inicializa en vacio
+
   titulosTareas.forEach((tituloT,i) => {
 
     let color = "#6c757d";
@@ -113,13 +116,162 @@ function agregarTarea(){
     }
     // Aqui se inicia el filtrado
     if (nuevaPrioridad === '-1') {
+
+      if (estadoTareas[i] === 0) {
+        // Carta
+        const card = document.createElement('div');
+        card.classList.add("card", "col-12", "mb-3");
+        card.style.borderLeft = `0.5rem solid ${color}`;
+        // Body
+        const cardB = document.createElement('div');
+        cardB.classList.add("card-body");
+        // Div titulo y prioridad
+        const divT = document.createElement('div');
+        divT.classList.add("d-flex","justify-content-between","align-items-start");
+        // Titulo
+        const titulo = document.createElement('h5');
+        titulo.classList.add("card-title");
+        titulo.textContent = tituloT;
+        // Fecha parrafo
+        const fecha = document.createElement('p');
+        fecha.classList.add("card-text");
+        // Fecha small
+        const small = document.createElement('small');
+        small.classList.add("text-body-secondary");
+        small.textContent = fechaTareas[i];
+        // Descripcción
+        const parrafo = document.createElement('p');
+        parrafo.classList.add("card-text");
+        parrafo.textContent = descripcionTareas[i];
+        // Prioridad
+        const prioridad = document.createElement('p');
+        prioridad.classList.add("mb-2");
+        prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
+        // Div botones
+        const divB = document.createElement('div');
+        divB.classList.add("text-end");
+        // Check estado de la tarea
+        const divCheck = document.createElement('div');
+        divCheck.classList.add("form-check");
+        // input 
+        const inputCheck = document.createElement('input');
+        inputCheck.classList.add("form-check-input");
+        inputCheck.type = 'checkbox';
+        inputCheck.id = `check${idTareas[i]}`;
+        // Label
+        const label = document.createElement('label');
+        label.classList.add('form-check-label');
+        label.setAttribute('for', `check${idTareas[i]}`);
+        label.textContent = 'Tarea completada';
+        // Boton editar
+        const btnEditar = document.createElement('button');
+        btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
+        btnEditar.textContent = "Editar";
+        btnEditar.id = `editar${idTareas[i]}`;
+
+        // Boton eliminar
+        const btnEliminar = document.createElement('button');
+        btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
+        btnEliminar.textContent = "Eliminar";
+        btnEliminar.id = `eliminar${idTareas[i]}`;
+
+        tareasP.appendChild(card);
+        card.appendChild(cardB);
+        cardB.appendChild(divT);
+        divT.appendChild(titulo);
+        divT.appendChild(fecha);
+        fecha.appendChild(small);
+        cardB.appendChild(parrafo);
+        cardB.appendChild(prioridad);
+        cardB.appendChild(divCheck);
+        divCheck.appendChild(inputCheck);
+        divCheck.appendChild(label);
+        cardB.appendChild(divB);
+        divB.appendChild(btnEditar);
+        divB.appendChild(btnEliminar);
+      }else{
+         // Carta
+        const card = document.createElement('div');
+        card.classList.add("card", "col-12", "mb-3");
+        card.style.borderLeft = `0.5rem solid ${color}`;
+        if (estadoTareas[i] === 1) {
+          card.style.opacity = "0.6";
+        }
+        // Body
+        const cardB = document.createElement('div');
+        cardB.classList.add("card-body");
+        // Div titulo y prioridad
+        const divT = document.createElement('div');
+        divT.classList.add("d-flex","justify-content-between","align-items-start");
+        // Titulo
+        const titulo = document.createElement('h5');
+        titulo.classList.add("card-title");
+        titulo.textContent = tituloT;
+        // Fecha parrafo
+        const fecha = document.createElement('p');
+        fecha.classList.add("card-text");
+        // Fecha small
+        const small = document.createElement('small');
+        small.classList.add("text-body-secondary");
+        small.textContent = fechaTareas[i];
+        // Descripcción
+        const parrafo = document.createElement('p');
+        parrafo.classList.add("card-text");
+        parrafo.textContent = descripcionTareas[i];
+        // Prioridad
+        const prioridad = document.createElement('p');
+        prioridad.classList.add("mb-2");
+        prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
+        // Div botones
+        const divB = document.createElement('div');
+        divB.classList.add("text-end");
+        // Check estado de la tarea
+        const divCheck = document.createElement('div');
+        divCheck.classList.add("form-check");
+        // input 
+        const inputCheck = document.createElement('input');
+        inputCheck.classList.add("form-check-input");
+        inputCheck.type = 'checkbox';
+        inputCheck.id = `check${idTareas[i]}`;
+        inputCheck.checked = estadoTareas[i] === 1; 
+        // Label
+        const label = document.createElement('label');
+        label.classList.add('form-check-label');
+        label.setAttribute('for', `check${idTareas[i]}`);
+        label.textContent = 'Tarea completada';
+        // Boton editar
+        const btnEditar = document.createElement('button');
+        btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
+        btnEditar.textContent = "Editar";
+        btnEditar.id = `editar${idTareas[i]}`;
+
+        // Boton eliminar
+        const btnEliminar = document.createElement('button');
+        btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
+        btnEliminar.textContent = "Eliminar";
+        btnEliminar.id = `eliminar${idTareas[i]}`;
+
+        tareasC.appendChild(card);
+        card.appendChild(cardB);
+        cardB.appendChild(divT);
+        divT.appendChild(titulo);
+        divT.appendChild(fecha);
+        fecha.appendChild(small);
+        cardB.appendChild(parrafo);
+        cardB.appendChild(prioridad);
+        cardB.appendChild(divCheck);
+        divCheck.appendChild(inputCheck);
+        divCheck.appendChild(label);
+        cardB.appendChild(divB);
+        divB.appendChild(btnEditar);
+        divB.appendChild(btnEliminar);
+      }
+     
+    }else if (nuevaPrioridad === prioridadTareas[i] && estadoTareas[i] === 0) {
       // Carta
       const card = document.createElement('div');
       card.classList.add("card", "col-12", "mb-3");
       card.style.borderLeft = `0.5rem solid ${color}`;
-      if (estadoTareas[i] === 1) {
-        card.style.opacity = "0.6";
-      }
       // Body
       const cardB = document.createElement('div');
       cardB.classList.add("card-body");
@@ -156,7 +308,6 @@ function agregarTarea(){
       inputCheck.classList.add("form-check-input");
       inputCheck.type = 'checkbox';
       inputCheck.id = `check${idTareas[i]}`;
-      inputCheck.checked = estadoTareas[i] === 1; 
       // Label
       const label = document.createElement('label');
       label.classList.add('form-check-label');
@@ -174,83 +325,7 @@ function agregarTarea(){
       btnEliminar.textContent = "Eliminar";
       btnEliminar.id = `eliminar${idTareas[i]}`;
 
-      tareas.appendChild(card);
-      card.appendChild(cardB);
-      cardB.appendChild(divT);
-      divT.appendChild(titulo);
-      divT.appendChild(fecha);
-      fecha.appendChild(small);
-      cardB.appendChild(parrafo);
-      cardB.appendChild(prioridad);
-      cardB.appendChild(divCheck);
-      divCheck.appendChild(inputCheck);
-      divCheck.appendChild(label);
-      cardB.appendChild(divB);
-      divB.appendChild(btnEditar);
-      divB.appendChild(btnEliminar);
-    }else if (nuevaPrioridad === prioridadTareas[i]) {
-      // Carta
-      const card = document.createElement('div');
-      card.classList.add("card", "col-12", "mb-3");
-      card.style.borderLeft = `0.5rem solid ${color}`;
-      if (estadoTareas[i] === 1) {
-        card.style.opacity = "0.6";
-      }
-      // Body
-      const cardB = document.createElement('div');
-      cardB.classList.add("card-body");
-      // Div titulo y prioridad
-      const divT = document.createElement('div');
-      divT.classList.add("d-flex","justify-content-between","align-items-start");
-      // Titulo
-      const titulo = document.createElement('h5');
-      titulo.classList.add("card-title");
-      titulo.textContent = tituloT;
-      // Fecha parrafo
-      const fecha = document.createElement('p');
-      fecha.classList.add("card-text");
-      // Fecha small
-      const small = document.createElement('small');
-      small.classList.add("text-body-secondary");
-      small.textContent = fechaTareas[i];
-      // Descripcción
-      const parrafo = document.createElement('p');
-      parrafo.classList.add("card-text");
-      parrafo.textContent = descripcionTareas[i];
-      // Prioridad
-      const prioridad = document.createElement('p');
-      prioridad.classList.add("mb-2");
-      prioridad.innerHTML = `<strong>Prioridad:</strong> ${prioridadT}`
-      // Div botones
-      const divB = document.createElement('div');
-      divB.classList.add("text-end");
-      // Check estado de la tarea
-      const divCheck = document.createElement('div');
-      divCheck.classList.add("form-check");
-      // input 
-      const inputCheck = document.createElement('input');
-      inputCheck.classList.add("form-check-input");
-      inputCheck.type = 'checkbox';
-      inputCheck.id = `check${idTareas[i]}`;
-      inputCheck.checked = estadoTareas[i] === 1; 
-      // Label
-      const label = document.createElement('label');
-      label.classList.add('form-check-label');
-      label.setAttribute('for', `check${idTareas[i]}`);
-      label.textContent = 'Tarea completada';
-      // Boton editar
-      const btnEditar = document.createElement('button');
-      btnEditar.classList.add("btn","btn-sm","btn-primary","me-2","editar");
-      btnEditar.textContent = "Editar";
-      btnEditar.id = `editar${idTareas[i]}`;
-
-      // Boton eliminar
-      const btnEliminar = document.createElement('button');
-      btnEliminar.classList.add("btn","btn-sm","btn-danger","eliminar");
-      btnEliminar.textContent = "Eliminar";
-      btnEliminar.id = `eliminar${idTareas[i]}`;
-
-      tareas.appendChild(card);
+      tareasP.appendChild(card);
       card.appendChild(cardB);
       cardB.appendChild(divT);
       divT.appendChild(titulo);

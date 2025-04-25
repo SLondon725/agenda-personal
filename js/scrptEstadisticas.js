@@ -7,9 +7,9 @@ let idTareas = JSON.parse(localStorage.getItem('arrIdT')) || [];
 let estadoTareas = JSON.parse(localStorage.getItem('arrEstadoT')) || [];
 
 let cantidadT = [0,0,0,0];
-let progresoT = [0,0,0];
+let progresoT = [0,0];
 // Sacando las tareas totales
-progresoT[0] = estadoTareas.length;
+let progresoTotal = estadoTareas.length;
 
 prioridadTareas.forEach((prioridad,i) => {
     // Sacando la cantidad de prioridades que hay de cada tarea
@@ -28,52 +28,128 @@ prioridadTareas.forEach((prioridad,i) => {
             break;
     }
     // Sacando el total de tareas, pendientes, completas y su porcentaje de cumplimiento
-    estadoTareas[i] == '1' ? progresoT[1]++ : progresoT[2]++;
+    estadoTareas[i] == '1' ? progresoT[0]++ : progresoT[1]++;
 
 });
 
-let porcentaje = (progresoT[1]/progresoT[0])*100;
+let porcentaje = (progresoT[0]/progresoTotal)*100;
 
 porcentaje = porcentaje.toFixed(1);
 
 
-document.getElementById('tareasT').textContent = progresoT[0]; // Mostrando las Tareas Totales
-document.getElementById('tareasC').textContent = progresoT[1]; // Mostrando las Tareas Completas
-document.getElementById('tareasI').textContent = progresoT[2]; // Mostrando las Tareas Incompletas
+document.getElementById('tareasT').textContent = progresoTotal; // Mostrando las Tareas Totales
+document.getElementById('tareasC').textContent = progresoT[0]; // Mostrando las Tareas Completas
+document.getElementById('tareasI').textContent = progresoT[1]; // Mostrando las Tareas Incompletas
 document.getElementById('tareasP').textContent = `${porcentaje} %`; // Mostrando el porcentaje del cumplimiento de la tareas
 
 document.addEventListener('DOMContentLoaded', ()=> {
     const ctx = document.getElementById('graficoPrioridades').getContext('2d');
     new Chart(ctx, {
-        type: 'bar', // Tipo de grafica: 
+        type: 'bar',
         data: {
-            labels: ['Sin prioridad','Baja', 'Media', 'Alta'],
+            labels: ['Sin prioridad', 'Baja', 'Media', 'Alta'],
             datasets: [{
                 label: 'Tareas por prioridad',
-                data: cantidadT,    // Aqui se pone el array con los datos
+                data: cantidadT,
                 backgroundColor: [
-                'gray', // gris
-                '#008000', // verde
-                '#ffc107',  // amarillo
-                '#dc3545'  // rojo
+                    '#6c757d',   // gris
+                    '#28a745',   // verde
+                    '#ffc107',   // amarillo
+                    '#dc3545'    // rojo
                 ],
-                borderColor: 'black',
-                borderWidth: 1
+                borderRadius: 6,
+                borderSkipped: false
             }]
+        },
+        options: {
+            responsive: true,
+            layout: {
+                padding: {
+                    top: 10,
+                    bottom: 10,
+                    left: 15,
+                    right: 15
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    onClick: () => null, // desactiva clic en leyenda
+                    labels: {
+                        color: '#333', // texto oscuro
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#333',
+                    titleColor: '#fff',
+                    bodyColor: '#fff'
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#333', // texto oscuro
+                        font: {
+                            size: 12
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)' // cuadrícula gris claro
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#333',
+                        stepSize: 1
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
         }
     });
+
     const ctx2 = document.getElementById('graficoTareas').getContext('2d');
     new Chart(ctx2, {
     type: 'pie',
     data: {
-        labels: ['Total', 'Completadas', 'Pendientes'],
+        labels: ['Completadas', 'Pendientes'],
         datasets: [{
         label: 'Tareas',
         data: progresoT,
-        backgroundColor: ['gray', '#008000', '#dc3545']
+        backgroundColor: ['#28a745', '#dc3545'],
+        borderColor: '#fff',
+        borderWidth: 2
         }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+        legend: {
+            position: 'top', // <-- Aquí la cambiamos a 'top'
+            labels: {
+            color: '#333',
+            font: {
+                size: 14,
+                weight: 'bold'
+            }
+            }
+        },
+        tooltip: {
+            backgroundColor: '#333',
+            titleColor: '#fff',
+            bodyColor: '#fff'
+        }
+        }
     }
     });
+
 });
 
 

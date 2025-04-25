@@ -42,37 +42,77 @@
     </div>
     <!-- Contenido principal -->
     <div class="main-content">
-        <h1 class="mb-4 text-center">Calendario de Tareas</h1>
-        <div class="row">
-          <div class="col-3">
-            <div class="card bg-dark text-white p-3 mb-3">
-              <h5>Total de tareas: <span class="text-info" id="tareasT"> </span></h5>
-              <h5>Completadas: <span class="text-success" id="tareasC"> </span></h5>
-              <h5>Pendientes: <span class="text-warning" id="tareasI"> </span></h5>
-              <h5>Cumplimiento: <span class="text-primary" id="tareasP"> </span></h5>
+      <h1 class="mb-4 text-center">Estadísticas</h1>
+      <!-- Resumen general y Gráfica de Tareas Completadas vs Pendientes -->
+      <div class="row justify-content-center mb-4">
+        <!-- Resumen general -->
+        <div class="col-2 mb-4">
+          <div class="card shadow-sm text-center bg-light">
+            <div class="card-body">
+              <i class="fas fa-tasks fa-2x text-primary mb-2"></i>
+              <h6>Total de tareas</h6>
+              <h4 id="tareasT" class="text-primary">0</h4>
             </div>
           </div>
-          <div class="col-6 mx-auto">
-            <div class="container my-4">
-              <h2>Tareas Completadas</h2>
-              <canvas id="graficoTareas" height="50"></canvas>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="container my-4">
-              <h2>Tareas por prioridad</h2>
-              <canvas id="graficoPrioridades" height="100"></canvas>
-            </div>
-          </div>
-          
         </div>
-        
-        
-        
-        
-        
-        
+        <div class="col-2 mb-4">
+          <div class="card shadow-sm text-center bg-light">
+            <div class="card-body">
+              <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+              <h6>Completadas</h6>
+              <h4 id="tareasC" class="text-success">0</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-2 mb-4">
+          <div class="card shadow-sm text-center bg-light">
+            <div class="card-body">
+              <i class="fas fa-hourglass-half fa-2x text-warning mb-2"></i>
+              <h6>Pendientes</h6>
+              <h4 id="tareasI" class="text-warning">0%</h4>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-2 mb-4">
+          <div class="card shadow-sm text-center bg-light">
+            <div class="card-body">
+              <i class="fas fa-bullseye fa-2x text-info mb-2"></i>
+              <h6>Cumplimiento</h6>
+              <h4 id="tareasP" class="text-info">0%</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfica de tareas completadas vs pendientes y Tareas por Prioridad -->
+      <div class="row justify-content-center">
+        <!-- Gráfica de tareas completadas vs pendientes -->
+        <div class="col-lg-6 col-md-12 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header bg-success text-white text-center">
+              <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Tareas Completadas vs Pendientes</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="graficoTareas" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfica de tareas por prioridad -->
+        <div class="col-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white text-center">
+              <h5><i class="fas fa-signal me-2"></i>Tareas por Prioridad</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="graficoPrioridades" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
 
     <!-- Modales -->
 

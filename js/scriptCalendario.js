@@ -8,7 +8,7 @@ let estadoTareas = JSON.parse(localStorage.getItem('arrEstadoT')) || [];
 
 let coloresTareas = [];
 
-prioridadTareas.forEach((prioridad,i) => {
+prioridadTareas.forEach(prioridad => {
     switch (prioridad) {
         case '0':
             coloresTareas.push("gray");
@@ -40,12 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         themeSystem: 'bootstrap5',
         height: 'auto',
         events: eventos,
-        dateClick: function (info) {
-        const title = prompt('¿Qué tarea quieres agregar para el ' + info.dateStr + '?');
-        if (title) {
-            calendar.addEvent({ title: title, date: info.dateStr });
-        }
-        }
     });
 
     calendar.render();
