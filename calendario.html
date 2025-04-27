@@ -45,19 +45,19 @@
       </div>
     </div>
     <!-- Contenido principal -->
-    <div class="main-content">
-        <h1 class="mb-4 text-center">Calendario de Tareas</h1>
-        <div id="calendar">
+    <div class="main-content min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
+      <h1 class="mb-4 fw-bold text-center">Calendario de Tareas</h1>
 
-        </div>
+      <div id="calendario" class="w-100 p-5 rounded-4 shadow-lg" style="max-width: 1000px;">
+          <!-- El calendario se carga aquí -->
+      </div>
     </div>
 
-    <!-- Modales -->
-
     <!-- Archivos JS -->
-    <script src="js/scriptCalendario.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Libreria para las alertas -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script> <!-- Libreria FullCalender  -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script> <!-- Core de FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script> <!-- Archivo de idioma español -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/scriptCalendario.js"></script>
   </body>
 </html>

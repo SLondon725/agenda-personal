@@ -10,31 +10,30 @@ let coloresTareas = [];
 
 prioridadTareas.forEach(prioridad => {
     switch (prioridad) {
-        case '0':
-            coloresTareas.push("gray");
-            break;
-        case '1':
-            coloresTareas.push("#008000");
-            break;
-        case '2':
-            coloresTareas.push("#ffc107");
-            break;
-        case '3':
-            coloresTareas.push("#dc3545");
-            break;
+        case '0': coloresTareas.push("gray"); break;
+        case '1': coloresTareas.push("#008000"); break;
+        case '2': coloresTareas.push("#ffc107"); break;
+        case '3': coloresTareas.push("#dc3545"); break;
     }
 });
 
-const eventos = titulosTareas.map((titulo, i) => ({
-    title: titulo,
-    date: fechaTareas[i],
-    backgroundColor: coloresTareas[i],
-}));
+const eventos = titulosTareas.map((titulo, i) => {
+    if (estadoTareas[i] === 0) {
+        return {
+            title: titulo,
+            date: fechaTareas[i],
+            backgroundColor: coloresTareas[i],
+            className: 'evento-tarea'
+        };
+    } else {
+        return null;
+    }
+}).filter(evento => evento !== null); // Filtrar los nulls
 
 document.addEventListener('DOMContentLoaded', () => {
-    const calendarEl = document.getElementById('calendar');
+    const calendarioEl = document.getElementById('calendario');
 
-    const calendar = new FullCalendar.Calendar(calendarEl, {
+    const calendario = new FullCalendar.Calendar(calendarioEl, {
         locale: 'es', // idioma español
         initialView: 'dayGridMonth',
         themeSystem: 'bootstrap5',
@@ -42,6 +41,5 @@ document.addEventListener('DOMContentLoaded', () => {
         events: eventos,
     });
 
-    calendar.render();
+    calendario.render();
 });
-

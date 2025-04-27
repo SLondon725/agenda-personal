@@ -33,80 +33,54 @@ body {
 
 /* Estilos para el calendario */
 
-/* Fondo del calendario */
+/* Cambiar fuente general del calendario */
 #calendar {
-border-radius: 10px;
-padding: 10px;
+    font-family: 'Poppins', 'Segoe UI', sans-serif; /* limpia y moderna */
 }
 
-/* Días de la semana: Lunes, Martes, etc. */
+/* Quitar línea debajo de los días de la semana */
+.fc-col-header-cell {
+    border-bottom: none !important;
+}
+
+/* Estilizar encabezado de los días  */
 .fc-col-header-cell-cushion {
-color: #0d6efd !important; /* rosado */
-font-weight: bold;
+    color: #212529;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
-/* Números de los días: 1, 2, 3, etc. */
+/* Estilizar los días del mes */
 .fc-daygrid-day-number {
-color: gray !important;
-font-weight: bold;
+    color: #6c757d;
+    font-weight: 500;
+    font-size: 1rem;
 }
 
-/* Color de fondo de los días */
-/* .fc-daygrid-day {
-background-color: #1e1e1e;
-} */
-
-/* Eventos (tareas) */
+/* Estilizar eventos */
 .fc-event {
-background-color: #008000; /* azul Bootstrap */
-color: #fff; /* texto blanco */
-border: none;
-border-radius: 5px;
-padding: 2px 5px;
-font-size: 0.9rem;
-}
-
-/* Día actual */
-.fc-day-today {
-background-color: rgba(128, 128, 128, 0.274) !important;
-}
-
-/* Hover sobre un día */
-.fc-daygrid-day:hover {
-background-color: rgba(128, 128, 128, 0.274);
-cursor: pointer;
-}
-
-/* Botón Today */
-.fc-button-primary {
-background-color: rgb(95, 94, 94);
-color: #000000;
-border: 1px solid gray;
-font-weight: bold;
-}
-
-.fc-button-primary:hover {
-background-color: gray;
-color: #121212;
-border-color: rgb(95, 94, 94);
-}
-
-/* Flechitas de navegación (mes anterior/siguiente) */
-.fc .fc-toolbar button {
-color: #ffffff;
-border: none;
-background: #0d6efd;
-}
-
-.fc .fc-toolbar button:hover {
-background-color: gray;
-color: #ffffff;
-border-radius: 5px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
 .fc-event-title {
-white-space: normal !important; /* permite salto de línea */
-overflow-wrap: anywhere;
+    white-space: normal !important; /* permite salto de línea */
+    overflow-wrap: anywhere;
+}
+/* Para dispositivos móviles, eliminamos el salto de línea en los títulos de eventos */
+@media (max-width: 768px) {
+    .fc-event-title {
+      white-space: nowrap !important; /* Evita el salto de línea */
+      overflow: hidden; /* El contenido que no cabe se oculta */
+      text-overflow: ellipsis; /* Añade "..." si el texto es demasiado largo */
+    }
+}
+
+/* Poner borde a las tareas */
+.fc-event.evento-tarea {
+    border: 1px solid rgb(86, 85, 85) !important; /* Borde negro */
+    padding: 0.2rem; /* Espaciado opcional */
 }
 
 
