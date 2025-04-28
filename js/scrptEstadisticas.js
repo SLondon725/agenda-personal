@@ -32,8 +32,8 @@ prioridadTareas.forEach((prioridad,i) => {
 
 });
 
-let porcentaje = (progresoT[0]/progresoTotal)*100;
-
+progresoTotal !== 0 ? porcentaje = (progresoT[0]/progresoTotal)*100 : 0
+    
 porcentaje = porcentaje.toFixed(1);
 
 
@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
         data: {
             labels: ['Sin prioridad', 'Baja', 'Media', 'Alta'],
             datasets: [{
-                label: 'Tareas por prioridad',
                 data: cantidadT,
                 backgroundColor: [
                     '#6c757d',   // gris
@@ -73,20 +72,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
             },
             plugins: {
                 legend: {
-                    display: true,
-                    onClick: () => null, // desactiva clic en leyenda
-                    labels: {
-                        color: '#333', // texto oscuro
-                        font: {
-                            size: 14,
-                            weight: 'bold'
-                        }
-                    }
-                },
-                tooltip: {
-                    backgroundColor: '#333',
-                    titleColor: '#fff',
-                    bodyColor: '#fff'
+                    display: false
+                    
                 }
             },
             scales: {
@@ -131,21 +118,17 @@ document.addEventListener('DOMContentLoaded', ()=> {
     options: {
         responsive: true,
         plugins: {
-        legend: {
-            position: 'top', // <-- Aquí la cambiamos a 'top'
-            labels: {
-            color: '#333',
-            font: {
-                size: 14,
-                weight: 'bold'
+            legend: {
+                position: 'bottom', // <-- Aquí la cambiamos a 'top'
+                labels: {
+                color: '#333'
+                }
+            },
+            tooltip: {
+                backgroundColor: '#333',
+                titleColor: '#fff',
+                bodyColor: '#fff'
             }
-            }
-        },
-        tooltip: {
-            backgroundColor: '#333',
-            titleColor: '#fff',
-            bodyColor: '#fff'
-        }
         }
     }
     });
