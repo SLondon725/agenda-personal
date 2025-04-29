@@ -83,7 +83,9 @@ body {
     padding: 0.2rem; /* Espaciado opcional */
 }
 
-/* Gradica por prioridad */
-
-
+/* Tema Oscuro */
+.temaOscuro { 
+    background-color: #212529;
+    color: white;
+}
 
