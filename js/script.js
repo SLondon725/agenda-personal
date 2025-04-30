@@ -7,6 +7,7 @@ const modal = document.getElementById('modalFormulario'); // Modal del nuevo reg
 const btnGuardar = document.getElementById('guardar');  // Guardar nuevo registro
 const tareasImportantes = document.getElementById('tareasImportantes'); //  Mostrando las tareas importantes
 const resumenDia = document.getElementById('resumenDia'); //  Mostrando las tareas importantes
+const nombreU = document.getElementById('nombreUsuario'); //  Mostrando las tareas importantes
 
 document.getElementById('fechaActual').textContent = fechaActual; // Mostrando la fecha actual
 
@@ -33,7 +34,9 @@ let idTareas = idT ? JSON.parse(idT) : [];
 let estadoT = localStorage.getItem('arrEstadoT');
 let estadoTareas = estadoT ? JSON.parse(estadoT) : [];
 
-// pruebas
+//Recuperando el nombre de usuario
+const nombre = localStorage.getItem('nombreUsuario');
+nombreU.textContent = nombre;
 
 
 // Variable para saber si se esta editando
