@@ -12,6 +12,7 @@ const diseñoCalendario = document.getElementById('diseñoCalendario');
 const estadoCalendario = localStorage.getItem('diseñoCalendario');
 
 // Funciones
+tema();
 mostrarNombre();
 mostrarTareas();
 tipoCalendario();
@@ -48,6 +49,35 @@ function tipoCalendario(){
         let diseñoC = diseñoCalendario.value || 'mes';
         localStorage.setItem('diseñoCalendario', diseñoC);
     });
+}
+
+function tema(){
+    const cambiarTema = document.getElementById('temaOscuro');
+    const html = document.documentElement;
+    // Cargar el estado guardado al iniciar
+    const temaGuardado = localStorage.getItem('cambiarTema');
+    if (temaGuardado !== null) {
+        // Si el tema guardado es '1', marcar el checkbox (modo oscuro)
+        cambiarTema.checked = temaGuardado === '1';
+
+        // Aplicar el tema guardado
+        if (cambiarTema.checked) {
+            html.setAttribute('data-bs-theme', 'dark');
+        } else {
+            html.setAttribute('data-bs-theme', 'light');
+        }
+    }
+
+    // Detectar cambios y guardar el estado
+    cambiarTema.addEventListener('change', () => {
+        const estado = cambiarTema.checked ? '1' : '0';
+        localStorage.setItem('cambiarTema', estado);
+
+        // Cambiar el tema
+        const nuevoTema = cambiarTema.checked ? 'dark' : 'light';
+        html.setAttribute('data-bs-theme', nuevoTema);
+    });
+
 }
 
 

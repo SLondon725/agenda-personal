@@ -11,10 +11,29 @@ let TipoCalendario = 'dayGridMonth';
 
 
 //Mostrar tareas completadas en el calendario
-const tareasCompletadas = localStorage.getItem('mostrarCompletadas');
+const tareasCompletadas = localStorage.getItem('mostrarCompletadas') || '0';
 
 //Mostrar el calendario por dia, semana o mes
-const diseñoCalendario = localStorage.getItem('diseñoCalendario');
+const diseñoCalendario = localStorage.getItem('diseñoCalendario') || 'mes';
+
+// Cambiar a tema oscuro
+const cambiarTema = localStorage.getItem('cambiarTema') || '0';
+console.log("el tema esta en ",cambiarTema);
+tema();
+
+function tema(){
+    const html = document.documentElement;
+
+    // Aplicar el tema guardado
+    if (cambiarTema === '1') {
+        html.setAttribute('data-bs-theme', 'dark');
+    } else {
+        html.setAttribute('data-bs-theme', 'light');
+    }
+
+}
+
+
 switch (diseñoCalendario) {
     case 'mes': TipoCalendario = 'dayGridMonth'; break;
     case 'semana': TipoCalendario = 'dayGridWeek'; break;

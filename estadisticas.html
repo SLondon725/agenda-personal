@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="bg-body text-body">
     <!-- Navbar para móviles con botón -->
     <nav class="navbar bg-dark d-md-none">
       <div class="container-fluid">
@@ -47,7 +47,7 @@
       <div class="row justify-content-center mb-4">
         <!-- Resumen general -->
         <div class="col-4 col-md-4 col-lg-2 mb-4 mx-2">
-          <div class="card shadow-sm text-center bg-light">
+          <div class="card shadow-sm text-center">
             <div class="card-body">
               <i class="fas fa-tasks fa-2x text-primary"></i>
               <h6>Total de tareas</h6>
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="col-4 col-md-4 col-lg-2 mb-4 mx-2">
-          <div class="card shadow-sm text-center bg-light">
+          <div class="card shadow-sm text-center">
             <div class="card-body">
               <i class="fas fa-check-circle fa-2x text-success"></i>
               <h6>Completadas</h6>
@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="col-4 col-md-4 col-lg-2 mb-4 mx-2">
-          <div class="card shadow-sm text-center bg-light">
+          <div class="card shadow-sm text-center">
             <div class="card-body">
               <i class="fas fa-hourglass-half fa-2x text-warning"></i>
               <h6>Pendientes</h6>
@@ -75,7 +75,7 @@
           </div>
         </div>
         <div class="col-4 col-md-4 col-lg-2 mb-4 mx-2">
-          <div class="card shadow-sm text-center bg-light">
+          <div class="card shadow-sm text-center">
             <div class="card-body">
               <i class="fas fa-bullseye fa-2x text-info"></i>
               <h6>Cumplimiento</h6>
@@ -90,7 +90,7 @@
         <!-- Gráfica de tareas completadas vs pendientes -->
         <div class="col-lg-6 col-md-12 mb-4">
             <div class="card shadow-sm border-light">
-                <div class="card-header bg-soft-success text-dark text-center">
+                <div class="card-header bg-soft-success text-center">
                     <h5 class="fw-bold">Tareas Completadas vs Pendientes</h5>
                 </div>
                 <div class="card-body">
@@ -102,7 +102,7 @@
         <!-- Gráfica de tareas por prioridad -->
         <div class="col-lg-6 col-md-12 mb-4">
             <div class="card shadow-sm border-light">
-                <div class="card-header bg-soft-danger text-dark text-center">
+                <div class="card-header bg-soft-danger text-center">
                     <h5 class="fw-bold">Tareas por Prioridad General</h5>
                 </div>
                 <div class="card-body">

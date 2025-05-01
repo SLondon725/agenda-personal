@@ -1,3 +1,7 @@
+// Cambiar a tema oscuro
+const cambiarTema = localStorage.getItem('cambiarTema') || '0';
+console.log("el tema esta en ",cambiarTema);
+
 // Recuperar los arrays del localStorage
 let titulosTareas = JSON.parse(localStorage.getItem('arrTitulosT')) || [];
 let descripcionTareas = JSON.parse(localStorage.getItem('arrDescripcionT')) || [];
@@ -10,6 +14,9 @@ let cantidadT = [0,0,0,0];
 let progresoT = [0,0];
 // Sacando las tareas totales
 let progresoTotal = estadoTareas.length;
+
+// Funciones
+tema();
 
 prioridadTareas.forEach((prioridad,i) => {
     // Sacando la cantidad de prioridades que hay de cada tarea
@@ -134,6 +141,17 @@ document.addEventListener('DOMContentLoaded', ()=> {
     });
 
 });
+
+function tema(){
+    const html = document.documentElement;
+
+    // Aplicar el tema guardado
+    if (cambiarTema === '1') {
+        html.setAttribute('data-bs-theme', 'dark');
+    } else {
+        html.setAttribute('data-bs-theme', 'light');
+    }
+}
 
 
 

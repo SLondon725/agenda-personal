@@ -11,6 +11,10 @@ const nombreU = document.getElementById('nombreUsuario'); //  Mostrando las tare
 
 document.getElementById('fechaActual').textContent = fechaActual; // Mostrando la fecha actual
 
+// Cambiar a tema oscuro
+const cambiarTema = localStorage.getItem('cambiarTema') || '0';
+console.log("el tema esta en ",cambiarTema);
+
 
 // LocalStorage
 // Arrays con el localStorage
@@ -45,6 +49,7 @@ let indiceEdicion = null;
 // Funciones a ejecutar al ingresar a la pagina
 agregarTarea();
 mostrarResumen();
+tema();
 
 // evento para reiniciar el modal 
 modal.addEventListener('hidden.bs.modal',()=> { document.getElementById('formModal').reset();  });
@@ -465,4 +470,15 @@ function checkTareaCompleta(){
       mostrarResumen();
     });
   });
+}
+
+function tema(){
+  const html = document.documentElement;
+
+  // Aplicar el tema guardado
+  if (cambiarTema === '1') {
+      html.setAttribute('data-bs-theme', 'dark');
+  } else {
+      html.setAttribute('data-bs-theme', 'light');
+  }
 }

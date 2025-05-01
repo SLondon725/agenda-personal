@@ -13,12 +13,15 @@ const tareasC = document.getElementById('tareasC'); //  Div para guardar las tar
 const modal = document.getElementById('modalFormulario'); // Modal del nuevo registro
 const btnGuardar = document.getElementById('guardar');  // Guardar o actualizar registro
 const filtroPrioridad = document.getElementById('filtroPrioridad'); // Filtro de prioridad
+// Cambiar a tema oscuro
+const cambiarTema = localStorage.getItem('cambiarTema') || '0';
 
 // Variable para saber si se esta editando
 let indiceEdicion = null;
 let nuevaPrioridad = "-1";
 // Funciones a ejecutar al ingresar a la pagina
 agregarTarea(); // actualizar datos de las tareas
+tema();
 
 // evento para reiniciar el modal 
 modal.addEventListener('hidden.bs.modal',()=> { document.getElementById('formModal').reset();  });
@@ -476,6 +479,17 @@ filtroPrioridad.addEventListener('change',actualizarPrioridad)
 function actualizarPrioridad(){
   nuevaPrioridad = filtroPrioridad.value ;
   agregarTarea()
+}
+
+function tema(){
+  const html = document.documentElement;
+
+  // Aplicar el tema guardado
+  if (cambiarTema === '1') {
+      html.setAttribute('data-bs-theme', 'dark');
+  } else {
+      html.setAttribute('data-bs-theme', 'light');
+  }
 }
 
 
