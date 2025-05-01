@@ -6,11 +6,22 @@ let prioridadTareas = JSON.parse(localStorage.getItem('arrPrioridadT')) || [];
 let idTareas = JSON.parse(localStorage.getItem('arrIdT')) || [];
 let estadoTareas = JSON.parse(localStorage.getItem('arrEstadoT')) || [];
 
+let coloresTareas = []; // Colores de las tareas
+let TipoCalendario = 'dayGridMonth';
+
+
 //Mostrar tareas completadas en el calendario
 const tareasCompletadas = localStorage.getItem('mostrarCompletadas');
 
-let coloresTareas = [];
+//Mostrar el calendario por dia, semana o mes
+const diseñoCalendario = localStorage.getItem('diseñoCalendario');
+switch (diseñoCalendario) {
+    case 'mes': TipoCalendario = 'dayGridMonth'; break;
+    case 'semana': TipoCalendario = 'dayGridWeek'; break;
+    case 'dia': TipoCalendario = 'dayGridDay'; break;
+}
 
+// Asignación de colores y filtrado por tareas completas/pendientes
 prioridadTareas.forEach((prioridad,i) => {
     switch (prioridad) {
         case '0': coloresTareas.push("878787"); break;
@@ -41,7 +52,6 @@ const eventos = titulosTareas.map((titulo, i) => {
             className: 'evento-tarea'
         };
     }
-    
 }).filter(evento => evento !== null); // Filtrar los nulls
 
 
@@ -51,10 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const calendario = new FullCalendar.Calendar(calendarioEl, {
         locale: 'es', // idioma español
-            // initialView: 'dayGridMonth', // Vista por MES
-            // initialView: 'dayGridWeek',  // Vista por SEMANA sin horas
-            // initialView: 'dayGridDay',   // Vista por DÍA sin horas
-        initialView: 'dayGridMonth',
+        initialView: `${TipoCalendario}`,
         themeSystem: 'bootstrap5',
         height: 'auto',
         events: eventos,
