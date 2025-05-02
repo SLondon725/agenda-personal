@@ -32,60 +32,104 @@ body {
 }
 
 /* Estilos para el calendario */
-
-/* Cambiar fuente general del calendario */
 #calendar {
-    font-family: 'Poppins', 'Segoe UI', sans-serif; /* limpia y moderna */
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
-
-/* Quitar línea debajo de los días de la semana */
-.fc-col-header-cell {
-    border-bottom: none !important;
-}
-
-/* Estilizar encabezado de los días  */
+  
+/* Quitar subrayado de los días de la semana (Lunes, Martes...) */
 .fc-col-header-cell-cushion {
+    text-decoration: none !important;
+}
+
+/* ===== Tema Claro ===== */
+[data-bs-theme="light"] #calendar {
+    background-color: #ffffff;
+    color: #212529;
+}
+/* Color del header de las celdas */
+[data-bs-theme="light"] .fc-col-header-cell {
+    background-color: #f1f3f5 !important;
+}
+/* color del texto del encabezado */
+[data-bs-theme="light"] .fc-col-header-cell-cushion {
     color: #212529;
     font-weight: 600;
     font-size: 1.1rem;
 }
-
-/* Estilizar los días del mes */
-.fc-daygrid-day-number {
+/* Estilos para los numeros (dias) */
+[data-bs-theme="light"] .fc-daygrid-day-number {
     color: #6c757d;
     font-weight: 500;
     font-size: 1rem;
 }
-
-/* Estilizar eventos */
-.fc-event {
+/* Estilos de las tareas */
+[data-bs-theme="light"] .fc-event {
     border: none;
+    border-radius: 6px;
+    padding: 2px 4px;
     font-size: 0.95rem;
     font-weight: 500;
 }
+/* Para el tema claro */
+[data-bs-theme="light"] .fc-day-today {
+    background-color: #e0efff !important; /* Cambia el color para tema claro */
+    color: #212529; /* Texto en color oscuro */
+}
 
+/* ===== Tema Oscuro ===== */
+[data-bs-theme="dark"] #calendar {
+    background-color: #121212;
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .fc-col-header-cell {
+    background-color: #1e1e1e !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+[data-bs-theme="dark"] .fc-scrollgrid-section-header td {
+    border-bottom: none !important;
+}
+
+[data-bs-theme="dark"] .fc-col-header-cell-cushion {
+    color: #f1f3f5;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+[data-bs-theme="dark"] .fc-daygrid-day-number {
+    color: #adb5bd;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+[data-bs-theme="dark"] .fc-event {
+    color: #000000 !important;
+    border: none;
+    border-radius: 6px;
+    padding: 2px 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+/* Estilo para el día actual en tema oscuro */
+[data-bs-theme="dark"] .fc-day-today {
+    background-color: #1e2a38 !important; /* Azul grisáceo suave */
+    color: #c6d2e1; /* Azul claro, sutil y elegante */
+}
+
+/* Estilo común para títulos de eventos */
 .fc-event-title {
-    white-space: normal !important; /* permite salto de línea */
+    white-space: normal !important;
     overflow-wrap: anywhere;
 }
-/* Para dispositivos móviles, eliminamos el salto de línea en los títulos de eventos */
+
+/* Responsive para móviles */
 @media (max-width: 768px) {
     .fc-event-title {
-      white-space: nowrap !important; /* Evita el salto de línea */
-      overflow: hidden; /* El contenido que no cabe se oculta */
-      text-overflow: ellipsis; /* Añade "..." si el texto es demasiado largo */
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
     }
 }
-
-/* Poner borde a las tareas */
-.fc-event.evento-tarea {
-    border: 1px solid rgb(86, 85, 85) !important; /* Borde negro */
-    padding: 0.2rem; /* Espaciado opcional */
-}
-
-/* Tema Oscuro */
-.temaOscuro { 
-    background-color: #212529;
-    color: white;
-}
-
+  

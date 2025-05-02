@@ -1,6 +1,5 @@
 // Cambiar a tema oscuro
 const cambiarTema = localStorage.getItem('cambiarTema') || '0';
-console.log("el tema esta en ",cambiarTema);
 
 // Recuperar los arrays del localStorage
 let titulosTareas = JSON.parse(localStorage.getItem('arrTitulosT')) || [];
@@ -49,6 +48,8 @@ document.getElementById('tareasC').textContent = progresoT[0]; // Mostrando las 
 document.getElementById('tareasI').textContent = progresoT[1]; // Mostrando las Tareas Incompletas
 document.getElementById('tareasP').textContent = `${porcentaje} %`; // Mostrando el porcentaje del cumplimiento de la tareas
 
+let colorTexto = cambiarTema === '0' ? '#333333' : '#f5f5f5';
+
 document.addEventListener('DOMContentLoaded', ()=> {
     const ctx = document.getElementById('graficoPrioridades').getContext('2d');
     new Chart(ctx, {
@@ -80,15 +81,14 @@ document.addEventListener('DOMContentLoaded', ()=> {
             plugins: {
                 legend: {
                     display: false
-                    
                 }
             },
             scales: {
                 x: {
                     ticks: {
-                        color: '#333', // texto oscuro
+                        color: `${colorTexto}`, // Color del texto
                         font: {
-                            size: 12
+                            size: 15
                         }
                     },
                     grid: {
@@ -118,8 +118,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
         label: 'Tareas',
         data: progresoT,
         backgroundColor: ['#28a745', '#dc3545'],
-        borderColor: '#fff',
-        borderWidth: 2
+        borderWidth: 0
         }]
     },
     options: {
@@ -128,7 +127,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
             legend: {
                 position: 'bottom', // <-- Aquí la cambiamos a 'top'
                 labels: {
-                color: '#333'
+                color: `${colorTexto}`,
+                font: {
+                            size: 15
+                        }
+
+
                 }
             },
             tooltip: {
@@ -156,4 +160,4 @@ function tema(){
 
 
 
-  
+  b      

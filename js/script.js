@@ -39,7 +39,7 @@ let estadoT = localStorage.getItem('arrEstadoT');
 let estadoTareas = estadoT ? JSON.parse(estadoT) : [];
 
 //Recuperando el nombre de usuario
-const nombre = localStorage.getItem('nombreUsuario');
+const nombre = localStorage.getItem('nombreUsuario') || 'Usuario';
 nombreU.textContent = nombre;
 
 

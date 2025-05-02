@@ -1,3 +1,8 @@
+// Constantes recuperadas localStorage
+const tareasCompletadas = localStorage.getItem('mostrarCompletadas') || '0';    //Mostrar tareas completadas en el calendario
+const diseñoCalendario = localStorage.getItem('diseñoCalendario') || 'mes'; //Mostrar el calendario por dia, semana o mes
+const cambiarTema = localStorage.getItem('cambiarTema') || '0'; // Cambiar a tema oscuro
+
 // Recuperar los arrays del localStorage
 let titulosTareas = JSON.parse(localStorage.getItem('arrTitulosT')) || [];
 let descripcionTareas = JSON.parse(localStorage.getItem('arrDescripcionT')) || [];
@@ -7,37 +12,26 @@ let idTareas = JSON.parse(localStorage.getItem('arrIdT')) || [];
 let estadoTareas = JSON.parse(localStorage.getItem('arrEstadoT')) || [];
 
 let coloresTareas = []; // Colores de las tareas
-let TipoCalendario = 'dayGridMonth';
+let TipoCalendario = 'dayGridMonth';  // Inicializando la variable del tipo de calendario en mes
+let dayHeaderFormat = { weekday: 'short', day: 'numeric' };  // Valor por defecto
 
-
-//Mostrar tareas completadas en el calendario
-const tareasCompletadas = localStorage.getItem('mostrarCompletadas') || '0';
-
-//Mostrar el calendario por dia, semana o mes
-const diseñoCalendario = localStorage.getItem('diseñoCalendario') || 'mes';
-
-// Cambiar a tema oscuro
-const cambiarTema = localStorage.getItem('cambiarTema') || '0';
-console.log("el tema esta en ",cambiarTema);
+// Funciones
 tema();
 
-function tema(){
-    const html = document.documentElement;
-
-    // Aplicar el tema guardado
-    if (cambiarTema === '1') {
-        html.setAttribute('data-bs-theme', 'dark');
-    } else {
-        html.setAttribute('data-bs-theme', 'light');
-    }
-
-}
-
-
+// Que diseño de calendario se tendra si por mes, semanas o dias
 switch (diseñoCalendario) {
-    case 'mes': TipoCalendario = 'dayGridMonth'; break;
-    case 'semana': TipoCalendario = 'dayGridWeek'; break;
-    case 'dia': TipoCalendario = 'dayGridDay'; break;
+    case 'mes': 
+        TipoCalendario = 'dayGridMonth'; 
+        dayHeaderFormat = { weekday: 'short' };
+        break;
+    case 'semana': 
+        TipoCalendario = 'dayGridWeek'; 
+        dayHeaderFormat = { weekday: 'short', day: 'numeric' };
+        break;
+    case 'dia': 
+        TipoCalendario = 'dayGridDay';
+        dayHeaderFormat = { weekday: 'long'}; 
+        break;
 }
 
 // Asignación de colores y filtrado por tareas completas/pendientes
@@ -75,16 +69,35 @@ const eventos = titulosTareas.map((titulo, i) => {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
     const calendarioEl = document.getElementById('calendario');
 
     const calendario = new FullCalendar.Calendar(calendarioEl, {
-        locale: 'es', // idioma español
-        initialView: `${TipoCalendario}`,
+        locale: 'es', // Establecer idioma español
+        initialView: `${TipoCalendario}`, // Vista inicial: 'dayGridMonth', 'dayGridWeek', 'dayGridDay'
         themeSystem: 'bootstrap5',
         height: 'auto',
         events: eventos,
+        dayHeaderFormat: dayHeaderFormat
+
     });
 
     calendario.render();
 });
+
+
+  
+  
+
+// Cambio de tema dependiendo la configuración
+function tema(){
+    const html = document.documentElement;
+
+    // Aplicar el tema guardado
+    if (cambiarTema === '1') {
+        html.setAttribute('data-bs-theme', 'dark');
+    } else {
+        html.setAttribute('data-bs-theme', 'light');
+    }
+
+}

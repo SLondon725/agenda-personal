@@ -24,6 +24,18 @@ function mostrarNombre(){
         localStorage.setItem('nombreUsuario', nombreUsuario.value);
         console.log("Nombre actualizado:", nombreUsuario.value);
     });
+    nombreUsuario.addEventListener('blur', () => {
+        Swal.fire({
+            title: 'Nombre actualizado',
+            text: 'Se realizo el cambio con exito',
+            icon: 'success',             // Ícono de éxito
+            position: 'top',
+            toast: true,
+            timer: 2000,
+            showConfirmButton: false
+        });
+    });
+
 }
 
 function mostrarTareas(){
@@ -35,6 +47,27 @@ function mostrarTareas(){
         const estado = mostrarCompletadas.checked ? '1' : '0';
         localStorage.setItem('mostrarCompletadas', estado);
         console.log("Estado del mostrarCompletadas:", estado);
+        if (estado === '0') {
+            Swal.fire({
+                title: 'Cambio exitoso',
+                text: 'No se mostraran las tareas completas en el calendario',
+                icon: 'success',
+                position: 'top',
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false
+            }); 
+        }else{
+            Swal.fire({
+                title: 'Cambio exitoso',
+                text: 'Se mostraran las tareas completas en el calendario',
+                icon: 'success',
+                position: 'top',
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false
+            }); 
+        }
     });
 }
 
@@ -48,6 +81,37 @@ function tipoCalendario(){
     diseñoCalendario.addEventListener('change', () => {
         let diseñoC = diseñoCalendario.value || 'mes';
         localStorage.setItem('diseñoCalendario', diseñoC);
+        if (diseñoC === 'mes') {
+            Swal.fire({
+                title: 'Cambio exitoso',
+                text: 'Vista por mes',
+                icon: 'success',
+                position: 'top',
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false
+            });  
+        }else if(diseñoC === 'semana') {
+            Swal.fire({
+                title: 'Cambio exitoso',
+                text: 'Vista por semana',
+                icon: 'success',
+                position: 'top',
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false
+            });  
+        }else if(diseñoC === 'dia') {
+            Swal.fire({
+                title: 'Cambio exitoso',
+                text: 'Vista por dia',
+                icon: 'success',
+                position: 'top',
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false
+            });  
+        }
     });
 }
 
@@ -76,6 +140,28 @@ function tema(){
         // Cambiar el tema
         const nuevoTema = cambiarTema.checked ? 'dark' : 'light';
         html.setAttribute('data-bs-theme', nuevoTema);
+
+        if (estado === '0') {
+            Swal.fire({
+                title: 'Cambio exitoso',
+                text: 'Tema claro activado',
+                icon: 'success',
+                position: 'top',
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false
+            }); 
+        }else{
+            Swal.fire({
+                title: 'Cambio exitoso',
+                text: 'Tema oscuro activado',
+                icon: 'success',
+                position: 'top',
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false
+            }); 
+        }
     });
 
 }
